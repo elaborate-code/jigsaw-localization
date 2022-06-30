@@ -1,4 +1,5 @@
 {
+    "version": "0.0.1",
     "name": "elaborate-code/jigsaw-localization",
     "description": "Brings localization feature to \"tightenco/jigsaw\" using JSON files",
     "type": "library",
