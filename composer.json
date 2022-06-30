@@ -1,0 +1,19 @@
+{
+    "name": "elaborate-code/jigsaw-localization",
+    "description": "Brings localization feature to \"tightenco/jigsaw\" using JSON files",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mohamed Ilies BOUDOUMA",
+            "email": "medilies.contact@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "ElaborateCode\\JigsawLocalization\\": "src/"
+        }
+    },
+    "require": {}
+}
