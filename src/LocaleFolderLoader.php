@@ -42,7 +42,7 @@ class LocaleFolderLoader
     /* =========================================================*/
 
     /**
-     * - Iterates throught the locale folder JSONs' paths list
+     * - Iterates through the locale folder JSONs' paths list
      * - Decodes each JSON
      * - Adds the newly discovered translations to the site's translations
      */
@@ -86,7 +86,7 @@ class LocaleFolderLoader
     }
 
     /**
-     * Checks the end of file or path and matches it agains '.json'
+     * Checks the end of file or path and matches it against '.json'
      */
     private function is_not_json(string $path): bool
     {

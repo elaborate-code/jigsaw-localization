@@ -55,7 +55,7 @@ class LangLoader
         $realpath = realpath($this->projectRoot . "\\$rel_path");
 
         if (!$realpath)
-            throw new \Exception("Invalide relative path. Can't get absolute path from '$rel_path'!", 1);
+            throw new \Exception("Invalid relative path. Can't get absolute path from '$rel_path'!", 1);
 
         return $realpath;
     }

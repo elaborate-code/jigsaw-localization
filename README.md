@@ -32,7 +32,7 @@ $events->beforeBuild([LoadLocalization::class]);
 2. Create subfolders for each language supported by the application.
 3. Populate the subfolders with JSON files that hold translations using translation strings as keys (as much as you want).
 
-File structure expamle:
+File structure example:
 
 ```text
 /lang
@@ -83,7 +83,7 @@ Source files example:
 <h2> {{ $page->__("Good morning", 'fr') }} </h2>
 ```
 
-The outputed files:
+The outputted files:
 
 ```html
 <!-- build_.*\index.html -->
@@ -99,7 +99,7 @@ The outputed files:
 
 ### Using folder structure for lang prefix
 
-This section explains how to dump the `__` helper second argument for a more intuitive approache.
+This section explains how to dump the `__` helper second argument for a more intuitive approach.
 
 ```php
 echo $page->__($text);
@@ -123,7 +123,7 @@ return [
 
 #### The folder structure
 
-Pages that reside in the root folder `source` are assumed to be redered using the `default_lang`. Other pages that reside in **subfolders named after a locale code** have their language set to the **subfolder name**
+Pages that reside in the root folder `source` are assumed to be rendered using the `default_lang`. Other pages that reside in **subfolders named after a locale code** have their language set to the **subfolder name**
 
 ```text
 /source
@@ -158,7 +158,7 @@ Wanna see a project that is up and running with this library? checkout [my websi
 
 ## TODO
 
-- A helper that gives a route to an equivelent translated page (done, I will integrate it soon).
+- A helper that gives a route to an equivalent translated page (done, I will integrate it soon).
 - Add testing.
 - Check the minimum required PHP version.
 - Automated github actions for testing.
