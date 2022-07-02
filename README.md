@@ -215,19 +215,19 @@ You may find your self creating a fully coded `source/index.blade.php` and repea
 
 > IMPORTANT: The following helpers require that you respect the lang prefix folder structure!
 
-### currentPathLang
+### current_path_lang
 
 Returns the `current_lang` string *deduced from the lang prefix folder structure*.
 
 ```php
-$page->currentPathLang()
+$page->current_path_lang()
 ```
 
 Usage example
 
 ```php
 <!DOCTYPE html>
-<html lang="{{ $page->currentPathLang() }}">
+<html lang="{{ $page->current_path_lang() }}">
     <head>
     <!-- ... -->
 ```

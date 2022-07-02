@@ -33,7 +33,7 @@ class LoadLocalization
             '__',
             function ($page, string $text, string|null $lang = null): string {
 
-                $lang = $lang ?? $page->currentPathLang();
+                $lang = $lang ?? $page->current_path_lang();
 
                 if (isset($page->$lang[$text]))
                     return $page->$lang[$text];
@@ -46,7 +46,7 @@ class LoadLocalization
     private function registerCurrentPathLangHelper(Jigsaw $jigsaw)
     {
         $jigsaw->setConfig(
-            'currentPathLang',
+            'current_path_lang',
             /**
              * ! This helper relies on the language prefix folder structure
              */
@@ -84,7 +84,7 @@ class LoadLocalization
              */
             function ($page, string $trans_lang, string|null $current_lang = null): string {
                 $href = '';
-                $current_lang ??= $page->currentPathLang();
+                $current_lang ??= $page->current_path_lang();
 
                 if ($current_lang === $page->default_lang) {
                     // "default_lang" isn't shown at the beginning of the URL
@@ -117,7 +117,7 @@ class LoadLocalization
              */
             function ($page, $url, string|null $current_lang = null): string {
 
-                $current_lang ??= $page->currentPathLang();
+                $current_lang ??= $page->current_path_lang();
 
                 if ($url[0] !== '/')
                     $url = '/' . $url;
