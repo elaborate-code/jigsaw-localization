@@ -1,4 +1,4 @@
-# elaborate-code/jigsaw-localization
+# Jigsaw localization
 
 Brings localization feature to [tightenco/jigsaw](https://jigsaw.tighten.com/) using JSON files.
 
