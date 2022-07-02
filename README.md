@@ -99,7 +99,7 @@ The outputted files:
 
 ### Using folder structure for lang prefix
 
-This section explains how to dump the `__` helper second argument for a more intuitive approach.
+This section explains how to dump the `__` helper `current_lang` second argument for a more intuitive approach.
 
 ```php
 echo $page->__($text);
@@ -127,7 +127,7 @@ return [
 
 > example.com/{lang}
 
-Pages that reside in the web root folder `source` are assumed to be rendered using the `default_lang`. Other pages that reside in **subfolders named after a locale code** have their language set to the **subfolder name**
+Pages that reside in the web root folder `source` are assumed to be rendered using the `default_lang`. Other pages that reside in **subfolders named after a locale code** have their **language** set to the **subfolder name**
 
 ```text
 /source
@@ -184,7 +184,12 @@ For the organizational purpose you can group internationalized translations in o
 
 ## The included page trick
 
-One of the tricks to not repeat your self by creating the same page many times. You can create a `source/_pages` folder which will contain the master pages where you write the HTML code and call the `__` helper then **include** that page in the other empty files that only respects the languages folder structure or define a `$lang` variable.
+You may find your self creating a fully coded `source/index.blade.php` and repeating the same code in `source/fr/index.blade.php` and for other languages. To avoid that we suggest the following approach:
+
+1. Create a `source/_pages` which will contain the master pages.
+2. The master page will look like any other ordinary page, *it will have the HTML structure and calls to `__` but no hardcoded `$current_lang` value* .For You may directly copy the content of `source/index.blade.php` to `source/_pages/index.blade.php`.
+3. **Include** the master page into other pages that are language aware.
+4. The included content will be able to know which language to apply on the translation helper `__` calls as a `$current_lang`.
 
 ```text
 /source
@@ -208,31 +213,60 @@ One of the tricks to not repeat your self by creating the same page many times. 
 
 ## Helpers
 
-> If you use the folder structure for language deduction the `$current_lang` can be omitted
+> IMPORTANT: The following helpers require that you respect the lang prefix folder structure!
+
+### currentPathLang
+
+Returns the `current_lang` string *deduced from the lang prefix folder structure*.
+
+```php
+$page->currentPathLang()
+```
+
+Usage example
+
+```php
+<!DOCTYPE html>
+<html lang="{{ $page->currentPathLang() }}">
+    <head>
+    <!-- ... -->
+```
 
 ### translated_route
 
-When you have a page that is available in many languages. `translated_route` helps you get the equivalent translated route href.
+When you have a page that is available in many languages. `translated_route` helps you get the equivalent translated route `href`.
 
 ```php
-$page->translated_route($translation_lang, $current_lang)
+$page->translated_route($translation_lang)
 ```
 
 input/output examples:
 
-| current path  | translated path |               |
-| ------------- | --------------- | ------------- |
-| ""            | "/fr"           | default -> fr |
-| "/contact"    | "/fr/contact"   | default -> fr |
-| "/fr"         | "/"             | fr -> default |
-| "/fr/contact" | "/contact"      | fr -> default |
-| "/es/contact" | "/fr/contact"   | es -> fr      |
-| "/es"         | "/fr"           | es -> fr      |
+| current path  | translated path | current_lang to translation_lang |
+| ------------- | --------------- | -------------------------------- |
+| ""            | "/fr"           | default -> fr                    |
+| "/contact"    | "/fr/contact"   | default -> fr                    |
+| "/fr"         | "/"             | fr -> default                    |
+| "/fr/contact" | "/contact"      | fr -> default                    |
+| "/es/contact" | "/fr/contact"   | es -> fr                         |
+| "/es"         | "/fr"           | es -> fr                         |
+
+Usage example:
+
+```php
+<nav>
+    @foreach(['en', 'es', 'fr'] as $translation_lang)
+        <a href="{{ $page->translated_route($translation_lang) }}"> {{ $translation_lang }} </a>
+    @endforeach
+</nav>
+```
 
 ### lang_route
 
+To avoid hard coding the `current_lang` into `URLs` input only what comes after the lang part of the path into this helper and it will handle the rest for you.  
+
 ```php
-$href = lang_route($url, $current_lang)
+$href = lang_route($url)
 ```
 
 | $url       | current_lang | href          |
@@ -250,8 +284,6 @@ Wanna see a project that is up and running with this library? checkout [my websi
 
 ## TODO
 
-- ~~A helper that gives a route to an equivalent translated page (done, I will integrate it soon)~~.
-- Add `get_current_lang` helper.
 - Add testing.
 - Check the minimum required PHP version.
 - Automated github actions for testing.

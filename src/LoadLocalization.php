@@ -27,10 +27,29 @@ class LoadLocalization
         $this->registerLangRouteHelper($jigsaw);
     }
 
+    private function registerTranslationRetrieverHelper(Jigsaw $jigsaw)
+    {
+        $jigsaw->setConfig(
+            '__',
+            function ($page, string $text, string|null $lang = null): string {
+
+                $lang = $lang ?? $page->currentPathLang();
+
+                if (isset($page->$lang[$text]))
+                    return $page->$lang[$text];
+
+                return $text;
+            }
+        );
+    }
+
     private function registerCurrentPathLangHelper(Jigsaw $jigsaw)
     {
         $jigsaw->setConfig(
             'currentPathLang',
+            /**
+             * ! This helper relies on the language prefix folder structure
+             */
             function ($page): string {
 
                 $path = $page->getPath();
@@ -56,26 +75,13 @@ class LoadLocalization
         );
     }
 
-    private function registerTranslationRetrieverHelper(Jigsaw $jigsaw)
-    {
-        $jigsaw->setConfig(
-            '__',
-            function ($page, string $text, string|null $lang = null): string {
-
-                $lang = $lang ?? $page->currentPathLang();
-
-                if (isset($page->$lang[$text]))
-                    return $page->$lang[$text];
-
-                return $text;
-            }
-        );
-    }
-
     private function registerTranslatedRouteHelper(Jigsaw $jigsaw)
     {
         $jigsaw->setConfig(
             'translated_route',
+            /**
+             * ! This helper relies on the language prefix folder structure
+             */
             function ($page, string $trans_lang, string|null $current_lang = null): string {
                 $href = '';
                 $current_lang ??= $page->currentPathLang();
@@ -106,6 +112,9 @@ class LoadLocalization
     {
         $jigsaw->setConfig(
             'lang_route',
+            /**
+             * ! This helper relies on the language prefix folder structure
+             */
             function ($page, $url, string|null $current_lang = null): string {
 
                 $current_lang ??= $page->currentPathLang();
