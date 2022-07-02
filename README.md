@@ -1,18 +1,18 @@
 # elaborate-code/jigsaw-localization
 
-Brings localization feature to "tightenco/jigsaw" using JSON files
+Brings localization feature to [tightenco/jigsaw](https://jigsaw.tighten.com/) using JSON files.
 
 ## Get started
 
 ### Setup
 
-Bring `elaborate-code/jigsaw-localization` to your `Jigsaw` project.
+Bring `jigsaw-localization` to your `Jigsaw` project.
 
 ```text
 composer require elaborate-code/jigsaw-localization
 ```
 
-Register `LoadLocalization` in `bootstrap.php` to run before build.
+Plug `LoadLocalization` to the builder by registering it in `bootstrap.php`.
 
 ```php
 <?php
@@ -121,9 +121,13 @@ return [
 ];
 ```
 
+> Note that the explicit `$lang` argument has higher precedence than the `lang` deduced from the folder structer!
+
 #### The folder structure
 
-Pages that reside in the root folder `source` are assumed to be rendered using the `default_lang`. Other pages that reside in **subfolders named after a locale code** have their language set to the **subfolder name**
+> example.com/{lang}
+
+Pages that reside in the web root folder `source` are assumed to be rendered using the `default_lang`. Other pages that reside in **subfolders named after a locale code** have their language set to the **subfolder name**
 
 ```text
 /source
@@ -146,11 +150,61 @@ Pages that reside in the root folder `source` are assumed to be rendered using t
 
 ## The special multi folder
 
-(doc soon)
+For the organizational purpose you can group internationalized translations in one JSON using many `lang` keys.
+
+```text
+/lang
+    ...
+    /multi
+        salutations.json
+        projects_short_descriptions.json
+        ...
+```
+
+`salutations.json` example:
+
+```json
+{
+    "en":{
+        "Hello": "Hello",
+        "Goodbye": "Goodbye"
+    },
+    "fr":{
+        "Hello": "Salut",
+        "Goodbye": "Au revoir"
+    },
+    "es":{
+        "Hello": "Hola",
+        "Goodbye": "Adiós"
+    }
+}
+```
+
+> First level keys must be lang codes
 
 ## The included page trick
 
-(doc soon)
+One of the tricks to not repeat your self by creating the same page many times. You can create a `source/_pages` folder which will contain the master pages where you write the HTML code and call the `__` helper then **include** that page in the other empty files that only respects the languages folder structure or define a `$lang` variable.
+
+```text
+/source
+    /_pages
+        index.blade.php
+        contact.blade.php
+        ...
+    /fr
+        index.blade.php
+        contact.blade.php
+        ...
+    index.blade.php
+    contact.blade.php
+    ...
+```
+
+```php
+// Both /source/index.blade.php and /source/fr/index.blade.php
+@include('_pages.index')
+```
 
 ## Live test
 
@@ -158,12 +212,14 @@ Wanna see a project that is up and running with this library? checkout [my websi
 
 ## TODO
 
-- A helper that gives a route to an equivalent translated page (done, I will integrate it soon).
+- ~~A helper that gives a route to an equivalent translated page (done, I will integrate it soon)~~.
+- Add `get_current_lang` helper.
 - Add testing.
 - Check the minimum required PHP version.
 - Automated github actions for testing.
 - Check behavior with non A-Z languages.
+- Support 5 caracters language codes `xx_YY`.
 
 ## Contributing
 
-I welcome any help, feel free to fork and PR, I'll about a contributing guideline later :)
+Any help is very welcomed, feel free to fork and PR :)

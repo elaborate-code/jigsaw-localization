@@ -21,9 +21,6 @@ class LocaleFolderLoader
         $this->jsonsList = $this->listLocaleFolderJsons($this->absPath);
     }
 
-    /**
-     * Scans folder content and excludes '.', '..' special files 
-     */
     private function listLocaleFolderJsons(string $abs_path): array
     {
         $jsons_list = [];
