@@ -6,7 +6,7 @@ Brings localization feature to [tightenco/jigsaw](https://jigsaw.tighten.com/) u
 
 ### Setup
 
-Bring `jigsaw-localization` to your `Jigsaw` project.
+Bring [jigsaw-localization](https://packagist.org/packages/elaborate-code/jigsaw-localization) to your `Jigsaw` project.
 
 ```text
 composer require elaborate-code/jigsaw-localization
