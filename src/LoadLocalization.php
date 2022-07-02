@@ -24,6 +24,7 @@ class LoadLocalization
         $this->registerCurrentPathLangHelper($jigsaw);
         $this->registerTranslationRetrieverHelper($jigsaw);
         $this->registerTranslatedRouteHelper($jigsaw);
+        $this->registerLangRouteHelper($jigsaw);
     }
 
     private function registerCurrentPathLangHelper(Jigsaw $jigsaw)
@@ -97,6 +98,26 @@ class LoadLocalization
                 }
 
                 return $href;
+            }
+        );
+    }
+
+    private function registerLangRouteHelper(Jigsaw $jigsaw)
+    {
+        $jigsaw->setConfig(
+            'lang_route',
+            function ($page, $url, string|null $current_lang = null): string {
+
+                $current_lang ??= $page->currentPathLang();
+
+                if ($url[0] !== '/')
+                    $url = '/' . $url;
+
+                if ($current_lang === $page->default_lang) {
+                    return $url;
+                } else {
+                    return "/$current_lang" . $url;
+                }
             }
         );
     }
