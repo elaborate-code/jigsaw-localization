@@ -208,6 +208,8 @@ One of the tricks to not repeat your self by creating the same page many times. 
 
 ## Helpers
 
+> If you use the folder structure for language deduction the `$current_lang` can be omitted
+
 ### translated_route
 
 When you have a page that is available in many languages. `translated_route` helps you get the equivalent translated route href.
@@ -216,9 +218,7 @@ When you have a page that is available in many languages. `translated_route` hel
 $page->translated_route($translation_lang, $current_lang)
 ```
 
-> If you use the folder structure for language deduction the `$current_lang` can be omitted
-
-input output examples:
+input/output examples:
 
 | current path  | translated path |               |
 | ------------- | --------------- | ------------- |
@@ -228,6 +228,21 @@ input output examples:
 | "/fr/contact" | "/contact"      | fr -> default |
 | "/es/contact" | "/fr/contact"   | es -> fr      |
 | "/es"         | "/fr"           | es -> fr      |
+
+### lang_route
+
+```php
+$href = lang_route($url, $current_lang)
+```
+
+| $url       | current_lang | href          |
+| ---------- | ------------ | ------------- |
+| ""         | ""           | "/"           |
+| "/"        | ""           | "/"           |
+| ""         | "fr"         | "/fr"         |
+| "/"        | "fr"         | "/fr"         |
+| "/contact" | ""           | "/contact"    |
+| "/contact" | "fr"         | "/fr/contact" |
 
 ## Live test
 
@@ -242,6 +257,7 @@ Wanna see a project that is up and running with this library? checkout [my websi
 - Automated github actions for testing.
 - Check behavior with non A-Z languages.
 - Support 5 characters language codes `xx_YY`.
+- Add possibility to customize path structure to deduce current lang (for example set /blog/{lang}/... as a possible pattern).
 
 ## Contributing
 
