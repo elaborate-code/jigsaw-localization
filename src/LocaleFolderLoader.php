@@ -6,7 +6,7 @@ use TightenCo\Jigsaw\Jigsaw;
 
 class LocaleFolderLoader
 {
-    private string $absPath;
+    private string $localeAbsPath;
     private string $lang;
     private bool $isMulti;
 
@@ -14,11 +14,11 @@ class LocaleFolderLoader
 
     public function __construct(string $abs_path, string $lang)
     {
-        $this->absPath = str_replace('/', '\\', $abs_path,);
+        $this->localeAbsPath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $abs_path);
         $this->lang = $lang;
         $this->isMulti = $this->lang === "multi";
 
-        $this->jsonsList = $this->listLocaleFolderJsons($this->absPath);
+        $this->jsonsList = $this->listLocaleFolderJsons($this->localeAbsPath);
     }
 
     private function listLocaleFolderJsons(string $abs_path): array
@@ -30,7 +30,8 @@ class LocaleFolderLoader
         foreach ($scan_results as $json) {
             if ($this->is_not_json($json))
                 continue;
-            $jsons_list[] = $this->absPath . "\\$json";
+
+            $jsons_list[] = $this->localeAbsPath . DIRECTORY_SEPARATOR . $json;
         }
 
         return $jsons_list;
