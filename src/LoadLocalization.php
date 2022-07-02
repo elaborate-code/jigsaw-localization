@@ -21,14 +21,15 @@ class LoadLocalization
             $localeLoader->MergeTranslations($jigsaw);
         };
 
-        $this->registerGetCurrentPathLangHelper($jigsaw);
+        $this->registerCurrentPathLangHelper($jigsaw);
         $this->registerTranslationRetrieverHelper($jigsaw);
+        $this->registerTranslatedRouteHelper($jigsaw);
     }
 
-    private function registerGetCurrentPathLangHelper(Jigsaw $jigsaw)
+    private function registerCurrentPathLangHelper(Jigsaw $jigsaw)
     {
         $jigsaw->setConfig(
-            'getCurrentPathLang',
+            'currentPathLang',
             function ($page): string {
 
                 $path = $page->getPath();
@@ -60,12 +61,42 @@ class LoadLocalization
             '__',
             function ($page, string $text, string|null $lang = null): string {
 
-                $lang = $lang ?? $page->getCurrentPathLang();
+                $lang = $lang ?? $page->currentPathLang();
 
                 if (isset($page->$lang[$text]))
                     return $page->$lang[$text];
 
                 return $text;
+            }
+        );
+    }
+
+    private function registerTranslatedRouteHelper(Jigsaw $jigsaw)
+    {
+        $jigsaw->setConfig(
+            'translated_route',
+            function ($page, string $trans_lang, string|null $current_lang = null): string {
+                $href = '';
+                $current_lang ??= $page->currentPathLang();
+
+                if ($current_lang === $page->default_lang) {
+                    // "default_lang" isn't shown at the beginning of the URL
+                    // So just prefix the translation lang "/YY"
+                    $href = "/$trans_lang" . $page->getPath();
+                } else {
+                    // Remove the lang prefix "/XX"
+                    // prefix the translation lang "/YY"
+                    $href = "/$trans_lang" . substr($page->getPath(), 3);
+                }
+
+                if (str_starts_with($href, '/' . $page->default_lang))
+                    $href = substr($href, 3);
+
+                if (empty($href)) {
+                    return '/';
+                }
+
+                return $href;
             }
         );
     }
