@@ -14,7 +14,7 @@ class LangLoader
         $this->localesList = $this->listLocalesFolders();
 
         foreach ($this->localesList as $lang) {
-            $this->localesLoadersList[$lang] = new LocaleFolderLoader($this->projectRoot . "\\lang\\$lang", $lang);
+            $this->localesLoadersList[$lang] = new LocaleFolderLoader($this->projectRoot . DIRECTORY_SEPARATOR . "lang" . DIRECTORY_SEPARATOR . $lang, $lang);
         }
     }
 
@@ -23,12 +23,7 @@ class LangLoader
      */
     private function listLocalesFolders(): array
     {
-        if (!realpath($this->projectRoot . '\\lang')) {
-            trigger_error("No lang folder found", E_USER_NOTICE);
-            return [];
-        }
-
-        $scan_results = scandir($this->getRealpath('\\lang'));
+        $scan_results = scandir($this->getRealpath('lang'));
         // Exclude '.' and '..'
         return array_splice($scan_results, 2);
     }
@@ -52,7 +47,7 @@ class LangLoader
      */
     private function getRealpath(string $rel_path): string
     {
-        $realpath = realpath($this->projectRoot . "\\$rel_path");
+        $realpath = realpath($this->projectRoot . DIRECTORY_SEPARATOR . $rel_path);
 
         if (!$realpath)
             throw new \Exception("Invalid relative path. Can't get absolute path from '$rel_path'!", 1);
