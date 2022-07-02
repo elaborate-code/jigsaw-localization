@@ -68,7 +68,7 @@ class LocaleFolderLoader
     {
         $jigsaw->setConfig(
             $lang,
-            $jigsaw->getConfig($lang)?->toArray() ?? []
+            ($jigsaw->getConfig($lang)?->toArray() ?? [])
                 + $translations
         );
     }
