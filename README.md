@@ -186,10 +186,10 @@ For the organizational purpose you can group internationalized translations in o
 
 You may find your self creating a fully coded `source/index.blade.php` and repeating the same code in `source/fr/index.blade.php` and for other languages. To avoid that we suggest the following approach:
 
-1. Create a `source/_pages` which will contain the master pages.
-2. The master page will look like any other ordinary page, *it will have the HTML structure and calls to `__` but no hardcoded `$current_lang` value* .For You may directly copy the content of `source/index.blade.php` to `source/_pages/index.blade.php`.
+1. Create a `source/_pages` directory which will contain the master pages.
+2. A master page will look like any other ordinary page, *it will have the HTML structure and calls to `__` but no hardcoded `$current_lang` value* .For example You may directly copy the content of `source/index.blade.php` to `source/_pages/index.blade.php`.
 3. **Include** the master page into other pages that are language aware.
-4. The included content will be able to know which language to apply on the translation helper `__` calls as a `$current_lang`.
+4. The included content will be able to know which **language** to apply on the translation helper `__` calls as a `$current_lang`.
 
 ```text
 /source
@@ -263,7 +263,7 @@ Usage example:
 
 ### lang_route
 
-To avoid hard coding the `current_lang` into `URLs` input only what comes after the lang part of the path into this helper and it will handle the rest for you.  
+To avoid hard coding the `current_lang` into `URLs`, input only what comes after the lang part of the path into this helper and it will handle the rest for you.  
 
 ```php
 $href = lang_route($url)
@@ -271,16 +271,14 @@ $href = lang_route($url)
 
 | $url       | current_lang | href          |
 | ---------- | ------------ | ------------- |
-| ""         | ""           | "/"           |
-| "/"        | ""           | "/"           |
-| ""         | "fr"         | "/fr"         |
-| "/"        | "fr"         | "/fr"         |
-| "/contact" | ""           | "/contact"    |
+| "" or "/"  | DEFAULT      | "/"           |
+| "" or "/"  | "fr"         | "/fr"         |
+| "/contact" | DEFAULT      | "/contact"    |
 | "/contact" | "fr"         | "/fr/contact" |
 
 ## Live test
 
-Wanna see a project that is up and running with this library? checkout [my website](https://elaboratecode.com)  and its [repo](https://github.com/elaborate-code/elaborate-code.github.io)
+Wanna see a project that is up and running with this library? checkout this [repo](https://github.com/elaborate-code/elaborate-code.github.io)
 
 ## TODO
 
