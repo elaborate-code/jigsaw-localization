@@ -143,7 +143,7 @@ class LoadLocalization
              */
             function ($page, string $path): string {
 
-                $baseUrl ??= '';
+                $baseUrl = $page->baseUrl ?? '';
 
                 if (!str_ends_with($baseUrl, '/')) {
                     $baseUrl .= "/";
