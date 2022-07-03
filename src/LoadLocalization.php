@@ -84,28 +84,22 @@ class LoadLocalization
              * ! This helper relies on the language prefix folder structure
              */
             function ($page, string $trans_lang, string|null $current_lang = null): string {
-                $href = '';
+
                 $current_lang ??= $page->current_path_lang();
 
-                if ($current_lang === $page->default_lang) {
-                    // "default_lang" isn't shown at the beginning of the URL
-                    // So just prefix the translation lang "/YY"
-                    $href = "/$trans_lang" . $page->getPath();
-                } else {
-                    // Remove the lang prefix "/XX"
-                    // prefix the translation lang "/YY"
-                    $href = "/$trans_lang" . substr($page->getPath(), 3);
+                $partial_path = $current_lang === $page->default_lang ?
+                    $page->getPath() :
+                    substr($page->getPath(), 3);
+
+                $path = "/$trans_lang" . $partial_path;
+
+                if (str_starts_with($path, '/' . $page->default_lang)) {
+                    $path = substr($path, 3);
                 }
 
-                if (str_starts_with($href, '/' . $page->default_lang)) {
-                    $href = substr($href, 3);
-                }
-
-                if (empty($href)) {
-                    return $page->url('/');
-                }
-
-                return $page->url($href);
+                return empty($path) ?
+                    $page->url('/') :
+                    $page->url($path);
             }
         );
     }
@@ -122,7 +116,7 @@ class LoadLocalization
                 $current_lang ??= $page->current_path_lang();
 
                 if (!str_starts_with($partial_path, '/')) {
-                    $partial_path = '/' . $partial_path;
+                    $partial_path = "/$partial_path";
                 }
 
                 if ($current_lang === $page->default_lang) {
