@@ -97,57 +97,6 @@ The outputted files:
 <h2> Bonjour </h2>
 ```
 
-### Using folder structure for lang prefix
-
-This section explains how to dump the `__` helper `current_lang` second argument for a more intuitive approach.
-
-```php
-echo $page->__($text);
-```
-
-#### The default lang
-
-First you should know that this package takes in consideration a parameter named `default_lang`. It set it to `en` by default but you can change it to any other value using `default_lang` key in `config.php`
-
-```php
-<?php
-
-// config.php
-
-return [
-    // ...
-    'default_lang' => 'es',
-    // ...
-];
-```
-
-> Note that the explicit `$lang` argument has higher precedence than the `lang` deduced from the folder structure!
-
-#### The folder structure
-
-> example.com/{lang}
-
-Pages that reside in the web root folder `source` are assumed to be rendered using the `default_lang`. Other pages that reside in **subfolders named after a locale code** have their **language** set to the **subfolder name**
-
-```text
-/source
-    /fr
-        index.blade.php
-        contact.blade.php
-        about.blade.php
-        ...
-    /es
-        index.blade.php
-        contact.blade.php
-        about.blade.php
-        ...
-    ...
-    index.blade.php
-    contact.blade.php
-    about.blade.php
-    ...
-```
-
 ## The special multi folder
 
 For the organizational purpose you can group internationalized translations in one JSON using many `lang` keys.
@@ -181,6 +130,57 @@ For the organizational purpose you can group internationalized translations in o
 ```
 
 > First level keys must be lang codes
+
+## Using folder structure for lang prefix
+
+This section explains how to dump the `__` helper `current_lang` second argument for a more intuitive approach.
+
+```php
+echo $page->__($text);
+```
+
+### The default lang
+
+First you should know that this package takes in consideration a parameter named `default_lang`. It set it to `en` by default but you can change it to any other value using `default_lang` key in `config.php`
+
+```php
+<?php
+
+// config.php
+
+return [
+    // ...
+    'default_lang' => 'es',
+    // ...
+];
+```
+
+> Note that the explicit `$lang` argument has higher precedence than the `lang` deduced from the folder structure!
+
+### The folder structure
+
+> example.com/{lang}
+
+Pages that reside in the web root folder `source` are assumed to be rendered using the `default_lang`. Other pages that reside in **subfolders named after a locale code** have their **language** set to the **subfolder name**
+
+```text
+/source
+    /fr
+        index.blade.php
+        contact.blade.php
+        about.blade.php
+        ...
+    /es
+        index.blade.php
+        contact.blade.php
+        about.blade.php
+        ...
+    ...
+    index.blade.php
+    contact.blade.php
+    about.blade.php
+    ...
+```
 
 ## The included page trick
 
