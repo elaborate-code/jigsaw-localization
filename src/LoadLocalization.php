@@ -32,14 +32,13 @@ class LoadLocalization
     {
         $jigsaw->setConfig(
             '__',
-            function ($page, string $text, string|null $lang = null): string {
+            function ($page, string $text, string|null $current_lang = null): string {
 
-                $lang = $lang ?? $page->current_path_lang();
+                $current_lang ??= $page->current_path_lang();
 
-                if (isset($page->$lang[$text]))
-                    return $page->$lang[$text];
-
-                return $text;
+                return isset($page->$current_lang[$text]) ?
+                    $page->$current_lang[$text] :
+                    $text;
             }
         );
     }
@@ -59,10 +58,11 @@ class LoadLocalization
                 // Set $lang from path (4 cases)
                 if (!str_contains($path, '/')) {
                     // index page
-                    if (empty($path))
+                    if (empty($path)) {
                         return $default_lang;
-                    else
+                    } else {
                         return $path;
+                    }
                 } else {
                     $lang = explode('/', $path)[1];
 
@@ -97,8 +97,9 @@ class LoadLocalization
                     $href = "/$trans_lang" . substr($page->getPath(), 3);
                 }
 
-                if (str_starts_with($href, '/' . $page->default_lang))
+                if (str_starts_with($href, '/' . $page->default_lang)) {
                     $href = substr($href, 3);
+                }
 
                 if (empty($href)) {
                     return $page->url('/');
@@ -116,17 +117,18 @@ class LoadLocalization
             /**
              * ! This helper relies on the language prefix folder structure
              */
-            function ($page, $url, string|null $current_lang = null): string {
+            function ($page, string $partial_path, string|null $current_lang = null): string {
 
                 $current_lang ??= $page->current_path_lang();
 
-                if ($url[0] !== '/')
-                    $url = '/' . $url;
+                if (!str_starts_with($partial_path, '/')) {
+                    $partial_path = '/' . $partial_path;
+                }
 
                 if ($current_lang === $page->default_lang) {
-                    return $page->url($url);
+                    return $page->url($partial_path);
                 } else {
-                    return $page->url("/$current_lang" . $url);
+                    return $page->url("/$current_lang" . $partial_path);
                 }
             }
         );
@@ -147,8 +149,9 @@ class LoadLocalization
                     $baseUrl .= "/";
                 }
 
-                if ($path[0] === "/")
+                if (str_starts_with($path, "/")) {
                     $path = substr($path, 1);
+                }
 
                 return $baseUrl . $path;
             }

@@ -49,8 +49,9 @@ class LangLoader
     {
         $realpath = realpath($this->projectRoot . DIRECTORY_SEPARATOR . $rel_path);
 
-        if (!$realpath)
+        if (!$realpath) {
             throw new \Exception("Invalid relative path. Can't get absolute path from '$rel_path'!", 1);
+        }
 
         return $realpath;
     }

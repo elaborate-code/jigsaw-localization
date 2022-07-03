@@ -28,8 +28,9 @@ class LocaleFolderLoader
         $scan_results = scandir($abs_path);
 
         foreach ($scan_results as $json) {
-            if ($this->is_not_json($json))
+            if ($this->is_not_json($json)) {
                 continue;
+            }
 
             $jsons_list[] = $this->localeAbsPath . DIRECTORY_SEPARATOR . $json;
         }
