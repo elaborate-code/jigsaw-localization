@@ -1,3 +1,12 @@
 {
-    "cSpell.ignoreWords": ["Jsons", "aboutpage", "endforeach", "tightenco"]
+    "cSpell.ignoreWords": ["Jsons", "aboutpage", "endforeach", "tightenco"],
+    "cSpell.ignorePaths": [
+        "package-lock.json",
+        "composer.json",
+        "node_modules",
+        "vscode-extension",
+        ".git/objects",
+        ".vscode",
+        ".vscode-insiders"
+    ]
 }

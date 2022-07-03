@@ -25,7 +25,7 @@ class LoadLocalization
         $this->registerTranslationRetrieverHelper($jigsaw);
         $this->registerTranslatedRouteHelper($jigsaw);
         $this->registerLangRouteHelper($jigsaw);
-        $this->registerPrependBaseUrlHelper($jigsaw);
+        $this->registerUrlHelper($jigsaw);
     }
 
     private function registerTranslationRetrieverHelper(Jigsaw $jigsaw)
@@ -101,10 +101,10 @@ class LoadLocalization
                     $href = substr($href, 3);
 
                 if (empty($href)) {
-                    return $page->prepend_base_url('/');
+                    return $page->url('/');
                 }
 
-                return $page->prepend_base_url($href);
+                return $page->url($href);
             }
         );
     }
@@ -124,24 +124,24 @@ class LoadLocalization
                     $url = '/' . $url;
 
                 if ($current_lang === $page->default_lang) {
-                    return $page->prepend_base_url($url);
+                    return $page->url($url);
                 } else {
-                    return $page->prepend_base_url("/$current_lang" . $url);
+                    return $page->url("/$current_lang" . $url);
                 }
             }
         );
     }
 
-    private function registerPrependBaseUrlHelper(Jigsaw $jigsaw)
+    private function registerUrlHelper(Jigsaw $jigsaw)
     {
         $jigsaw->setConfig(
-            'prepend_base_url',
+            'url',
             /**
-             * Soloves the issue of when the baseUrl starts with a folder
+             * Generates a fully qualified URL to the given path.
              */
             function ($page, string $path): string {
 
-                $baseUrl = $page->baseUrl ?? '';
+                $baseUrl ??= '';
 
                 if (!str_ends_with($baseUrl, '/')) {
                     $baseUrl .= "/";

@@ -214,8 +214,8 @@ You may find your self creating a fully coded `source/index.blade.php` and repea
 ## Helpers
 
 > IMPORTANT: The following helpers require that you respect the lang prefix folder structure!
-
-> Setting `baseUrl` in **config** is essensial if your site root URL isn't 'example.com/index.html'
+>
+> Setting `baseUrl` in **config** is essential if your site root URL isn't 'example.com/index.html'
 
 ### current_path_lang
 
@@ -234,17 +234,17 @@ Usage example
     <!-- ... -->
 ```
 
-### prepend_base_url
+### url
 
 ```php
-$page->prepend_base_url($path)
+$page->url($path)
 ```
 
 ```php
-// baseUrl = 'example.com/ecommerce-project'
-$page->prepend_base_url('/'); // example.com/ecommerce-project/
-$page->prepend_base_url('/fr/contact'); // example.com/ecommerce-project/fr/contact
-$page->prepend_base_url('es/about'); // example.com/ecommerce-project/es/about
+// baseUrl = 'example.com/e-commerce-project'
+$page->url('/'); // example.com/e-commerce-project
+$page->url('/fr/contact'); // example.com/e-commerce-project/fr/contact
+$page->url('es/about'); // example.com/e-commerce-project/es/about
 ```
 
 ### translated_route
@@ -293,7 +293,7 @@ $href = lang_route($url)
 
 ## Live test
 
-Wanna see a project that is up and running with this library? checkout this [repo](https://github.com/elaborate-code/elaborate-code.github.io)
+Wanna see a project that is up and running with this library? checkout this [repo](https://github.com/elaborate-code/it-company-website)
 
 ## TODO
 
