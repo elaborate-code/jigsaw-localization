@@ -215,6 +215,8 @@ You may find your self creating a fully coded `source/index.blade.php` and repea
 
 > IMPORTANT: The following helpers require that you respect the lang prefix folder structure!
 
+> Setting `baseUrl` in **config** is essensial if your site root URL isn't 'example.com/index.html'
+
 ### current_path_lang
 
 Returns the `current_lang` string *deduced from the lang prefix folder structure*.
@@ -230,6 +232,19 @@ Usage example
 <html lang="{{ $page->current_path_lang() }}">
     <head>
     <!-- ... -->
+```
+
+### prepend_base_url
+
+```php
+$page->prepend_base_url($path)
+```
+
+```php
+// baseUrl = 'example.com/ecommerce-project'
+$page->prepend_base_url('/'); // example.com/ecommerce-project/
+$page->prepend_base_url('/fr/contact'); // example.com/ecommerce-project/fr/contact
+$page->prepend_base_url('es/about'); // example.com/ecommerce-project/es/about
 ```
 
 ### translated_route
