@@ -25,6 +25,7 @@ class LoadLocalization
         $this->registerTranslationRetrieverHelper($jigsaw);
         $this->registerTranslatedRouteHelper($jigsaw);
         $this->registerLangRouteHelper($jigsaw);
+        $this->registerPrependBaseUrlHelper($jigsaw);
     }
 
     private function registerTranslationRetrieverHelper(Jigsaw $jigsaw)
@@ -100,10 +101,10 @@ class LoadLocalization
                     $href = substr($href, 3);
 
                 if (empty($href)) {
-                    return '/';
+                    return $page->prepend_base_url('/');
                 }
 
-                return $href;
+                return $page->prepend_base_url($href);
             }
         );
     }
@@ -123,10 +124,33 @@ class LoadLocalization
                     $url = '/' . $url;
 
                 if ($current_lang === $page->default_lang) {
-                    return $url;
+                    return $page->prepend_base_url($url);
                 } else {
-                    return "/$current_lang" . $url;
+                    return $page->prepend_base_url("/$current_lang" . $url);
                 }
+            }
+        );
+    }
+
+    private function registerPrependBaseUrlHelper(Jigsaw $jigsaw)
+    {
+        $jigsaw->setConfig(
+            'prepend_base_url',
+            /**
+             * Soloves the issue of when the baseUrl starts with a folder
+             */
+            function ($page, string $path): string {
+
+                $baseUrl = $page->baseUrl ?? '';
+
+                if (!str_ends_with($baseUrl, '/')) {
+                    $baseUrl .= "/";
+                }
+
+                if ($path[0] === "/")
+                    $path = substr($path, 1);
+
+                return $baseUrl . $path;
             }
         );
     }
