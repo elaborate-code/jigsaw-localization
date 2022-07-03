@@ -247,12 +247,12 @@ $page->url('/fr/contact'); // example.com/e-commerce-project/fr/contact
 $page->url('es/about'); // example.com/e-commerce-project/es/about
 ```
 
-### translated_route
+### translated_url
 
-When you have a page that is available in many languages. `translated_route` helps you get the equivalent translated route `href`.
+When you have a page that is available in many languages. `translated_url` helps you get the equivalent translated route `href`.
 
 ```php
-$page->translated_route($translation_lang)
+$page->translated_url($translation_lang)
 ```
 
 input/output examples:
@@ -271,17 +271,17 @@ Usage example:
 ```php
 <nav>
     @foreach(['en', 'es', 'fr'] as $translation_lang)
-        <a href="{{ $page->translated_route($translation_lang) }}"> {{ $translation_lang }} </a>
+        <a href="{{ $page->translated_url($translation_lang) }}"> {{ $translation_lang }} </a>
     @endforeach
 </nav>
 ```
 
-### lang_route
+### lang_url
 
-To avoid hard coding the `current_lang` into `URLs`, input only what comes after the lang part of the path into this helper and it will handle the rest for you.  
+To avoid hard coding the `current_lang` into `URLs`, input only the partial path that comes after the lang part into this helper and it will handle the rest for you.  
 
 ```php
-$href = lang_route($url)
+$href = lang_url($url)
 ```
 
 | $url       | current_lang | href          |

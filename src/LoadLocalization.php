@@ -23,8 +23,8 @@ class LoadLocalization
 
         $this->registerCurrentPathLangHelper($jigsaw);
         $this->registerTranslationRetrieverHelper($jigsaw);
-        $this->registerTranslatedRouteHelper($jigsaw);
-        $this->registerLangRouteHelper($jigsaw);
+        $this->registerTranslatedUrlHelper($jigsaw);
+        $this->registerLangUrlHelper($jigsaw);
         $this->registerUrlHelper($jigsaw);
     }
 
@@ -76,10 +76,10 @@ class LoadLocalization
         );
     }
 
-    private function registerTranslatedRouteHelper(Jigsaw $jigsaw)
+    private function registerTranslatedUrlHelper(Jigsaw $jigsaw)
     {
         $jigsaw->setConfig(
-            'translated_route',
+            'translated_url',
             /**
              * ! This helper relies on the language prefix folder structure
              */
@@ -110,10 +110,10 @@ class LoadLocalization
         );
     }
 
-    private function registerLangRouteHelper(Jigsaw $jigsaw)
+    private function registerLangUrlHelper(Jigsaw $jigsaw)
     {
         $jigsaw->setConfig(
-            'lang_route',
+            'lang_url',
             /**
              * ! This helper relies on the language prefix folder structure
              */
