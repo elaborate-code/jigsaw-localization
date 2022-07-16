@@ -7,15 +7,13 @@ use TightenCo\Jigsaw\Jigsaw;
 class LocaleFolderLoader
 {
     private string $localeAbsPath;
-    private string $lang;
     private bool $isMulti;
 
     private array $jsonsList;
 
-    public function __construct(string $abs_path, string $lang)
+    public function __construct(string $abs_path, private string $lang)
     {
         $this->localeAbsPath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $abs_path);
-        $this->lang = $lang;
         $this->isMulti = $this->lang === "multi";
 
         $this->jsonsList = $this->listLocaleFolderJsons($this->localeAbsPath);
