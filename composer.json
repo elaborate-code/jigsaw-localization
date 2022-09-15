@@ -15,5 +15,7 @@
             "ElaborateCode\\JigsawLocalization\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+        "illuminate/container": "^9.20"
+    }
 }

@@ -2,24 +2,25 @@
 
 namespace ElaborateCode\JigsawLocalization;
 
+use Illuminate\Container\Container;
 use TightenCo\Jigsaw\Jigsaw;
 
 class LoadLocalization
 {
-
-    private $langLoader;
+    public Container $container;
 
     public function __construct()
     {
-        $this->langLoader = new LangLoader;
+        $this->container = new Container;
+
+        $this->container->singleton(LocalizationLoader::class, fn ($c) =>  $c->make(LocalizationLoader::class));
+        $this->container->bind(LocaleFolderLoader::class, fn ($c) => $c->make(LocaleFolderLoader::class));
+        $this->container->bind(LangLoader::class, fn ($c) => new LangLoader);
     }
 
     public function handle(Jigsaw $jigsaw)
     {
-
-        foreach ($this->langLoader->getLocalesLoadersList() as $lang => $localeLoader) {
-            $localeLoader->MergeTranslations($jigsaw);
-        };
+        $this->container->make(LocalizationLoader::class)->handle($jigsaw);
 
         $this->registerCurrentPathLangHelper($jigsaw);
         $this->registerTranslationRetrieverHelper($jigsaw);
