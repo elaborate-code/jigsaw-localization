@@ -15,5 +15,8 @@
             "ElaborateCode\\JigsawLocalization\\": "src/"
         }
     },
-    "require": {}
+    "require": {},
+    "require-dev": {
+        "pestphp/pest": "^1.22"
+    }
 }
