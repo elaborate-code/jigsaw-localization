@@ -17,6 +17,7 @@
     },
     "require": {},
     "require-dev": {
-        "pestphp/pest": "^1.22"
+        "pestphp/pest": "^1.22",
+        "tightenco/jigsaw": "^1.3"
     }
 }
