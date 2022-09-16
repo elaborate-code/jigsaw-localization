@@ -37,7 +37,7 @@ class File implements Stringable
             $files = array_splice($files, 2);
 
             foreach ($files as $file_name) {
-                $this->directoryContent[$file_name] = $this->path . DIRECTORY_SEPARATOR . $file_name;
+                $this->directoryContent[$file_name] = realpath($this->path . DIRECTORY_SEPARATOR . $file_name);
             }
         }
     }

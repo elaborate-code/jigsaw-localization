@@ -2,6 +2,7 @@
 
 namespace ElaborateCode\JigsawLocalization;
 
+use ElaborateCode\JigsawLocalization\Loader\LangLoader;
 use TightenCo\Jigsaw\Jigsaw;
 
 class LoadLocalization
