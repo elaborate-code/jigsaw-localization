@@ -80,6 +80,9 @@ class File implements Stringable
         return $this->isDir;
     }
 
+    /**
+     * 'file_name' => 'file_absolute_path'
+     */
     public function getDirectoryContent(): array
     {
         if (!$this->isDir()) {

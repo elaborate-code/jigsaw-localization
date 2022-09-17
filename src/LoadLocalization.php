@@ -2,7 +2,7 @@
 
 namespace ElaborateCode\JigsawLocalization;
 
-use ElaborateCode\JigsawLocalization\Loaders\LangLoader;
+use ElaborateCode\JigsawLocalization\Loaders\LangFolderLoader;
 use TightenCo\Jigsaw\Jigsaw;
 
 class LoadLocalization
@@ -13,7 +13,7 @@ class LoadLocalization
     public function __construct()
     {
         // ! INJECT
-        $this->langLoader = new LangLoader;
+        $this->langLoader = new LangFolderLoader;
     }
 
     public function handle(Jigsaw $jigsaw)

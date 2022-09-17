@@ -4,11 +4,9 @@ namespace ElaborateCode\JigsawLocalization\Loaders;
 
 use ElaborateCode\JigsawLocalization\Helpers\File;
 
-class LangLoader
+class LangFolderLoader
 {
     protected File $langDirectory;
-
-    protected array $localesList;
 
     protected array $localesLoadersList = [];
 
@@ -16,24 +14,17 @@ class LangLoader
     {
         $this->langDirectory = new File($lang_path);
 
-        $this->setLocalesList();
-
         $this->setLocalesLoadersList();
-    }
-
-    public function setLocalesList(): void
-    {
-        $this->localesList = $this->langDirectory->getDirectoryContent();
     }
 
     public function getLocalesList(): array
     {
-        return $this->localesList;
+        return array_keys($this->langDirectory->getDirectoryContent());
     }
 
     public function setLocalesLoadersList(): void
     {
-        foreach ($this->localesList as $lang => $abs_path) {
+        foreach ($this->langDirectory->getDirectoryContent() as $lang => $abs_path) {
             // ! INJECT
             $this->localesLoadersList[$lang] = new LocaleFolderLoader($abs_path, $lang);
         }
