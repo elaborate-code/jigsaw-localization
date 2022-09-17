@@ -1,41 +1,57 @@
 <?php
 
-namespace ElaborateCode\JigsawLocalization;
+namespace ElaborateCode\JigsawLocalization\Loaders;
 
+use ElaborateCode\JigsawLocalization\Helpers\File;
+use Exception;
 use TightenCo\Jigsaw\Jigsaw;
 
 class LocaleFolderLoader
 {
-    private string $localeAbsPath;
-    private string $lang;
-    private bool $isMulti;
+
+    protected string $lang;
+
+    protected File $directory;
 
     private array $jsonsList;
 
-    public function __construct(string $abs_path, string $lang)
+    public function __construct(string $abs_path)
     {
-        $this->localeAbsPath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $abs_path);
-        $this->lang = $lang;
-        $this->isMulti = $this->lang === "multi";
-
-        $this->jsonsList = $this->listLocaleFolderJsons($this->localeAbsPath);
-    }
-
-    private function listLocaleFolderJsons(string $abs_path): array
-    {
-        $jsons_list = [];
-
-        $scan_results = scandir($abs_path);
-
-        foreach ($scan_results as $json) {
-            if ($this->is_not_json($json)) {
-                continue;
-            }
-
-            $jsons_list[] = $this->localeAbsPath . DIRECTORY_SEPARATOR . $json;
+        if (!realpath($abs_path)) {
+            throw new Exception("Invalid absolute path '$abs_path' on LocaleFolderLoader instantiation");
         }
 
-        return $jsons_list;
+        $this->directory = new File($abs_path);
+
+        $this->setLangFromPath();
+
+        $this->setJsonsList();
+    }
+
+    protected function setLangFromPath(): void
+    {
+        $temp = explode(DIRECTORY_SEPARATOR, $this->directory);
+        $this->lang = end($temp);
+    }
+
+    public function getLang(): string
+    {
+        return $this->lang;
+    }
+
+    public function isMulti(): bool
+    {
+        return $this->lang === 'multi';
+    }
+
+    protected function setJsonsList(): void
+    {
+        $this->jsonsList = $this->directory->getDirectoryJsonContent();
+    }
+
+    public function getJsonsList(): array
+    {
+        return $this->jsonsList;
     }
 
     /* =========================================================*/
@@ -47,7 +63,7 @@ class LocaleFolderLoader
      */
     public function MergeTranslations(Jigsaw $jigsaw)
     {
-        if ($this->isMulti) {
+        if ($this->isMulti()) {
             foreach ($this->jsonsList as $json) {
 
                 $multi_translations = $this->decoded_json($json);
@@ -82,22 +98,5 @@ class LocaleFolderLoader
     private function decoded_json(string $abs_path): array
     {
         return json_decode(file_get_contents($abs_path), true);
-    }
-
-    /**
-     * Checks the end of file or path and matches it against '.json'
-     */
-    private function is_not_json(string $path): bool
-    {
-        return substr($path, -5) !== ".json";
-    }
-
-    /* ---------------------------------------------------------*/
-    //          Setters and Getters
-    /* ---------------------------------------------------------*/
-
-    public function getJsonsList(): array
-    {
-        return $this->jsonsList;
     }
 }

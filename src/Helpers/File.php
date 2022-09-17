@@ -61,6 +61,14 @@ class File implements Stringable
 
     protected function setPath(string $rel_path): void
     {
+        $is_valid_abs_path = realpath($rel_path);
+
+        if ($is_valid_abs_path) {
+            $this->path = $is_valid_abs_path;
+
+            return;
+        }
+
         $realpath = realpath($this->projectRoot . DIRECTORY_SEPARATOR . $rel_path);
 
         if (!$realpath) {
@@ -81,14 +89,36 @@ class File implements Stringable
     }
 
     /**
-     * 'file_name' => 'file_absolute_path'
+     * 'File_name' => 'file_absolute_path'
      */
     public function getDirectoryContent(): array
     {
         if (!$this->isDir()) {
-            throw new \Exception("Error Processing Request");
+            throw new \Exception("This object isn't a directory");
         }
 
         return $this->directoryContent;
+    }
+
+
+    protected function isJson(string $path): bool
+    {
+        return strcmp(substr($path, -5), ".json") === 0;
+    }
+
+    /**
+     * 'JSON_name' => 'file_absolute_path'
+     */
+    public function getDirectoryJsonContent(): array
+    {
+        if (!$this->isDir()) {
+            throw new \Exception("This object isn't a directory");
+        }
+
+        return array_filter(
+            $this->directoryContent,
+            fn ($v, $k) => $this->isJson($v),
+            ARRAY_FILTER_USE_BOTH
+        );
     }
 }
