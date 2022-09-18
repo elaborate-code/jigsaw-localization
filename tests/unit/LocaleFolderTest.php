@@ -6,7 +6,7 @@ use ElaborateCode\JigsawLocalization\Helpers\LocaleFolderFactory;
 it('sets locale lang correctly', function () {
     $factory = new LocaleFolderFactory;
 
-    $en = new File('/tests/feat/lang/en');
+    $en = new File('/tests/lang/en');
 
     $locale = $factory->make($en);
 
@@ -18,7 +18,7 @@ it('sets locale lang correctly', function () {
 it('assertJsonsList', function () {
     $factory = new LocaleFolderFactory;
 
-    $en = new File('/tests/feat/lang/en');
+    $en = new File('/tests/lang/en');
 
     $locale = $factory->make($en);
 

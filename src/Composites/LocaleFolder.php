@@ -14,6 +14,11 @@ class LocaleFolder
 
     private array $jsonsList;
 
+    /**
+     * @var array<LocaleJson>
+     */
+    private array $localeJsons;
+
     public function __construct(string $abs_path)
     {
         if (! realpath($abs_path) || ! is_dir($abs_path)) {
@@ -50,6 +55,15 @@ class LocaleFolder
     public function getJsonsList(): array
     {
         return $this->jsonsList;
+    }
+
+    public function setJsosns()
+    {
+        $this->localeJsons = [];
+
+        foreach ($this->jsonsList as $file_name => $abs_path) {
+            $this->localeJsons[$file_name] = new LocaleJson($abs_path);
+        }
     }
 
     /* =========================================================*/
