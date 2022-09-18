@@ -2,13 +2,11 @@
 
 namespace ElaborateCode\JigsawLocalization\Composites;
 
+use ElaborateCode\JigsawLocalization\Factories\LocaleFolderFactory;
 use ElaborateCode\JigsawLocalization\Helpers\File;
-use ElaborateCode\JigsawLocalization\Helpers\LocaleFolderFactory;
 use ElaborateCode\JigsawLocalization\LocalizationRepository;
-use Iterator;
-use ReturnTypeWillChange;
 
-class LangFolder implements Iterator
+class LangFolder
 {
     protected File $directory;
 
@@ -56,35 +54,5 @@ class LangFolder implements Iterator
         foreach ($this->localesList as $lang => $localeFolder) {
             $localeFolder->loadTranslations($localization_repo);
         }
-    }
-
-    /* ---------------------------------------------------------*/
-    //
-    /* ---------------------------------------------------------*/
-    public function rewind(): void
-    {
-        reset($this->localesList);
-    }
-
-    #[ReturnTypeWillChange]
-    public function current()
-    {
-        return current($this->localesList);
-    }
-
-    #[ReturnTypeWillChange]
-    public function key()
-    {
-        return key($this->localesList);
-    }
-
-    public function next(): void
-    {
-        next($this->localesList);
-    }
-
-    public function valid(): bool
-    {
-        return ! is_null(key($this->localesList));
     }
 }

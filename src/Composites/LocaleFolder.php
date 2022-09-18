@@ -5,10 +5,8 @@ namespace ElaborateCode\JigsawLocalization\Composites;
 use ElaborateCode\JigsawLocalization\Helpers\File;
 use ElaborateCode\JigsawLocalization\LocalizationRepository;
 use Exception;
-use Iterator;
-use ReturnTypeWillChange;
 
-class LocaleFolder implements Iterator
+class LocaleFolder
 {
     protected File $directory;
 
@@ -75,35 +73,5 @@ class LocaleFolder implements Iterator
         foreach ($this->localeJsons as $json_name => $locale_json) {
             $localization_repo->merge($this->lang, $locale_json->getContent());
         }
-    }
-
-    /* ---------------------------------------------------------*/
-    //
-    /* ---------------------------------------------------------*/
-    public function rewind(): void
-    {
-        reset($this->localeJsons);
-    }
-
-    #[ReturnTypeWillChange]
-    public function current()
-    {
-        return current($this->localeJsons);
-    }
-
-    #[ReturnTypeWillChange]
-    public function key()
-    {
-        return key($this->localeJsons);
-    }
-
-    public function next(): void
-    {
-        next($this->localeJsons);
-    }
-
-    public function valid(): bool
-    {
-        return ! is_null(key($this->localeJsons));
     }
 }

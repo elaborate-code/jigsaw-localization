@@ -101,12 +101,6 @@ class File implements Stringable
         return $this->directoryContent;
     }
 
-    protected function isJson(string $path): bool
-    {
-        // TODO: tell if $this is JSON when $path is_null
-        return strcmp(strtolower(substr($path, -5)), '.json') === 0;
-    }
-
     /**
      * 'JSON_name' => 'file_absolute_path'
      */
@@ -118,7 +112,7 @@ class File implements Stringable
 
         return array_filter(
             $this->directoryContent,
-            fn ($file_name, $abs_path) => $this->isJson($file_name),
+            fn ($file_name, $abs_path) => is_json($file_name),
             ARRAY_FILTER_USE_BOTH
         );
     }
