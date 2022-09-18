@@ -13,7 +13,7 @@ class LocaleJson
 
     public function __construct(string $abs_path)
     {
-        if (! realpath($abs_path)) {
+        if (!realpath($abs_path)) {
             throw new Exception("Invalid absolute JSON path '$abs_path' on LocaleFolder instantiation");
         }
 
@@ -26,9 +26,5 @@ class LocaleJson
     public function getContent(): array
     {
         return $this->content;
-    }
-
-    public function pushTranslations($translations_object)
-    {
     }
 }

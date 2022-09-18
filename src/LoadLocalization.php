@@ -7,19 +7,21 @@ use TightenCo\Jigsaw\Jigsaw;
 
 class LoadLocalization
 {
-    private $langLoader;
+    protected $langLoader;
+
+    protected $localiztion;
 
     public function __construct()
     {
         // ! INJECT
         $this->langLoader = new LangFolder;
+
+        $this->localiztion = new Localization;
     }
 
     public function handle(Jigsaw $jigsaw)
     {
-        foreach ($this->langLoader->getLocales() as $lang => $localeLoader) {
-            $localeLoader->MergeTranslations($jigsaw);
-        }
+        $this->langLoader->mergeTranslations($this->localiztion);
 
         $this->registerCurrentPathLangHelper($jigsaw);
         $this->registerTranslationRetrieverHelper($jigsaw);
@@ -54,7 +56,7 @@ class LoadLocalization
                 $default_lang = $page->default_lang ?? 'en';
 
                 // Set $lang from path (4 cases)
-                if (! str_contains($path, '/')) {
+                if (!str_contains($path, '/')) {
                     // index page
                     if (empty($path)) {
                         return $default_lang;
@@ -65,7 +67,7 @@ class LoadLocalization
                     $lang = explode('/', $path)[1];
 
                     // TODO: regex match 'xx' and 'xx_YY' lang codes
-                    if (! ctype_lower($lang) || strlen($lang) > 2) {
+                    if (!ctype_lower($lang) || strlen($lang) > 2) {
                         $lang = $default_lang;
                     }
                 }
@@ -89,9 +91,9 @@ class LoadLocalization
                     $page->getPath() :
                     substr($page->getPath(), 3);
 
-                $path = "/$trans_lang".$partial_path;
+                $path = "/$trans_lang" . $partial_path;
 
-                if (str_starts_with($path, '/'.$page->default_lang)) {
+                if (str_starts_with($path, '/' . $page->default_lang)) {
                     $path = substr($path, 3);
                 }
 
@@ -112,14 +114,14 @@ class LoadLocalization
             function ($page, string $partial_path, string|null $current_lang = null): string {
                 $current_lang ??= $page->current_path_lang();
 
-                if (! str_starts_with($partial_path, '/')) {
+                if (!str_starts_with($partial_path, '/')) {
                     $partial_path = "/$partial_path";
                 }
 
                 if ($current_lang === $page->default_lang) {
                     return $page->url($partial_path);
                 } else {
-                    return $page->url("/$current_lang".$partial_path);
+                    return $page->url("/$current_lang" . $partial_path);
                 }
             }
         );
@@ -135,7 +137,7 @@ class LoadLocalization
             function ($page, string $path): string {
                 $baseUrl = $page->baseUrl ?? '';
 
-                if (! str_ends_with($baseUrl, '/')) {
+                if (!str_ends_with($baseUrl, '/')) {
                     $baseUrl .= '/';
                 }
 
@@ -143,7 +145,7 @@ class LoadLocalization
                     $path = substr($path, 1);
                 }
 
-                return $baseUrl.$path;
+                return $baseUrl . $path;
             }
         );
     }

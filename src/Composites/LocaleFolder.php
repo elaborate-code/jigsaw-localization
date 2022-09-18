@@ -3,6 +3,7 @@
 namespace ElaborateCode\JigsawLocalization\Composites;
 
 use ElaborateCode\JigsawLocalization\Helpers\File;
+use ElaborateCode\JigsawLocalization\Localization;
 use Exception;
 use Iterator;
 use ReturnTypeWillChange;
@@ -23,7 +24,7 @@ class LocaleFolder implements Iterator
 
     public function __construct(string $abs_path)
     {
-        if (! realpath($abs_path) || ! is_dir($abs_path)) {
+        if (!realpath($abs_path) || !is_dir($abs_path)) {
             throw new Exception("Invalid absolute folder path '$abs_path' on LocaleFolder instantiation");
         }
 
@@ -70,6 +71,15 @@ class LocaleFolder implements Iterator
         }
     }
 
+    public function pushTranslations(Localization $localization)
+    {
+        foreach ($this->localeJsons as $json_name => $localeJson) {
+            $translations = $localeJson->getContent();
+
+            // TODO: push
+        }
+    }
+
     /* =========================================================*/
 
     /**
@@ -77,7 +87,7 @@ class LocaleFolder implements Iterator
      * - Decodes each JSON
      * - Adds the newly discovered translations to the site's translations
      */
-    public function MergeTranslations(Jigsaw $jigsaw)
+    public function OLD_MergeTranslations(Jigsaw $jigsaw)
     {
         if ($this->isMulti()) {
             foreach ($this->jsonsList as $json) {
@@ -137,6 +147,6 @@ class LocaleFolder implements Iterator
 
     public function valid(): bool
     {
-        return ! is_null(key($this->localeJsons));
+        return !is_null(key($this->localeJsons));
     }
 }
