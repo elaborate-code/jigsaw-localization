@@ -3,11 +3,10 @@
 namespace ElaborateCode\JigsawLocalization\Composites;
 
 use ElaborateCode\JigsawLocalization\Helpers\File;
-use ElaborateCode\JigsawLocalization\Localization;
+use ElaborateCode\JigsawLocalization\LocalizationRepository;
 use Exception;
 use Iterator;
 use ReturnTypeWillChange;
-use TightenCo\Jigsaw\Jigsaw;
 
 class LocaleFolder implements Iterator
 {
@@ -71,53 +70,11 @@ class LocaleFolder implements Iterator
         }
     }
 
-    public function pushTranslations(Localization $localization)
+    public function loadTranslations(LocalizationRepository $localization_repo)
     {
-        foreach ($this->localeJsons as $json_name => $localeJson) {
-            $translations = $localeJson->getContent();
-
-            // TODO: push
+        foreach ($this->localeJsons as $json_name => $locale_json) {
+            $localization_repo->merge($this->lang, $locale_json->getContent());
         }
-    }
-
-    /* =========================================================*/
-
-    /**
-     * - Iterates through the locale folder JSONs' paths list
-     * - Decodes each JSON
-     * - Adds the newly discovered translations to the site's translations
-     */
-    public function OLD_MergeTranslations(Jigsaw $jigsaw)
-    {
-        if ($this->isMulti()) {
-            foreach ($this->jsonsList as $json) {
-                $multi_translations = $this->decoded_json($json);
-
-                foreach ($multi_translations as $lang => $translations) {
-                    $this->pushTranslations($jigsaw, $translations, $lang);
-                }
-            }
-        } else {
-            foreach ($this->jsonsList as $json) {
-                $lang_translations = $this->decoded_json($json);
-
-                $this->pushTranslations($jigsaw, $lang_translations, $this->lang);
-            }
-        }
-    }
-
-    private function pushTranslations(Jigsaw $jigsaw, array $translations, string $lang)
-    {
-        $jigsaw->setConfig(
-            $lang,
-            ($jigsaw->getConfig($lang)?->toArray() ?? [])
-                + $translations
-        );
-    }
-
-    private function decoded_json(string $abs_path): array
-    {
-        return json_decode(file_get_contents($abs_path), true);
     }
 
     /* ---------------------------------------------------------*/

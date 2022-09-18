@@ -51,10 +51,10 @@ class LangFolder implements Iterator
         return $this->localesList;
     }
 
-    public function mergeTranslations(Localization $localization): void
+    public function orderLoadingTranslations(LocalizationRepository $localization_repo): void
     {
         foreach ($this->localesList as $lang => $localeFolder) {
-            $localeFolder->pushTranslations($localization);
+            $localeFolder->loadTranslations($localization_repo);
         }
     }
 

@@ -21,7 +21,9 @@ class LoadLocalization
 
     public function handle(Jigsaw $jigsaw)
     {
-        $this->langLoader->mergeTranslations($this->localiztion);
+        $this->langLoader->orderLoadingTranslations($this->localizationRepo);
+
+        $jigsaw->setConfig('localization', $this->localizationRepo->getTranslations());
 
         $this->registerCurrentPathLangHelper($jigsaw);
         $this->registerTranslationRetrieverHelper($jigsaw);
@@ -37,8 +39,8 @@ class LoadLocalization
             function ($page, string $text, string|null $current_lang = null): string {
                 $current_lang ??= $page->current_path_lang();
 
-                return isset($page->$current_lang[$text]) ?
-                    $page->$current_lang[$text] :
+                return isset($page->localization[$current_lang][$text]) ?
+                    $page->localization[$current_lang][$text] :
                     $text;
             }
         );

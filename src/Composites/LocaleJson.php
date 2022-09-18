@@ -21,7 +21,7 @@ class LocaleJson
 
         $this->content = json_decode(file_get_contents($this->json->getPath()), true);
 
-        // ? It is possible to throw an exception when a JSON is empty or invalid
+        // TODO: It is possible to throw an exception when a JSON is empty or invalid
         $this->content ??= [];
     }
 
