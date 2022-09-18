@@ -2,7 +2,8 @@
 
 namespace ElaborateCode\JigsawLocalization;
 
-class Localization
+class LocalizationRepository
 {
     protected array $translations = [];
+
 }

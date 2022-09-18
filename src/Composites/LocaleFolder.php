@@ -24,7 +24,7 @@ class LocaleFolder implements Iterator
 
     public function __construct(string $abs_path)
     {
-        if (!realpath($abs_path) || !is_dir($abs_path)) {
+        if (! realpath($abs_path) || ! is_dir($abs_path)) {
             throw new Exception("Invalid absolute folder path '$abs_path' on LocaleFolder instantiation");
         }
 
@@ -147,6 +147,6 @@ class LocaleFolder implements Iterator
 
     public function valid(): bool
     {
-        return !is_null(key($this->localeJsons));
+        return ! is_null(key($this->localeJsons));
     }
 }

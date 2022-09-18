@@ -4,7 +4,7 @@ namespace ElaborateCode\JigsawLocalization\Composites;
 
 use ElaborateCode\JigsawLocalization\Helpers\File;
 use ElaborateCode\JigsawLocalization\Helpers\LocaleFolderFactory;
-use ElaborateCode\JigsawLocalization\Localization;
+use ElaborateCode\JigsawLocalization\LocalizationRepository;
 use Iterator;
 use ReturnTypeWillChange;
 
@@ -20,7 +20,7 @@ class LangFolder implements Iterator
     protected array $localesList;
 
     /**
-     * @param string $lang_path Lang directory path from the project root
+     * @param  string  $lang_path Lang directory path from the project root
      */
     public function __construct(string $lang_path = '/lang')
     {
@@ -85,6 +85,6 @@ class LangFolder implements Iterator
 
     public function valid(): bool
     {
-        return !is_null(key($this->localesList));
+        return ! is_null(key($this->localesList));
     }
 }
