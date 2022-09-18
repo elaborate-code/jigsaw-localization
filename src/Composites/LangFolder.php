@@ -4,8 +4,10 @@ namespace ElaborateCode\JigsawLocalization\Composites;
 
 use ElaborateCode\JigsawLocalization\Helpers\File;
 use ElaborateCode\JigsawLocalization\Helpers\LocaleFolderFactory;
+use Iterator;
+use ReturnTypeWillChange;
 
-class LangFolder
+class LangFolder implements Iterator
 {
     protected File $directory;
 
@@ -46,5 +48,35 @@ class LangFolder
     public function getLocales(): array
     {
         return $this->localesList;
+    }
+
+    /* ---------------------------------------------------------*/
+    //
+    /* ---------------------------------------------------------*/
+    public function rewind(): void
+    {
+        reset($this->localesList);
+    }
+
+    #[ReturnTypeWillChange]
+    public function current()
+    {
+        return current($this->localesList);
+    }
+
+    #[ReturnTypeWillChange]
+    public function key()
+    {
+        return key($this->localesList);
+    }
+
+    public function next(): void
+    {
+        next($this->localesList);
+    }
+
+    public function valid(): bool
+    {
+        return ! is_null(key($this->localesList));
     }
 }

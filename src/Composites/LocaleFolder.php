@@ -4,9 +4,11 @@ namespace ElaborateCode\JigsawLocalization\Composites;
 
 use ElaborateCode\JigsawLocalization\Helpers\File;
 use Exception;
+use Iterator;
+use ReturnTypeWillChange;
 use TightenCo\Jigsaw\Jigsaw;
 
-class LocaleFolder
+class LocaleFolder implements Iterator
 {
     protected File $directory;
 
@@ -103,12 +105,38 @@ class LocaleFolder
         );
     }
 
-    /* ---------------------------------------------------------*/
-    //          Helpers
-    /* ---------------------------------------------------------*/
-
     private function decoded_json(string $abs_path): array
     {
         return json_decode(file_get_contents($abs_path), true);
+    }
+
+    /* ---------------------------------------------------------*/
+    //
+    /* ---------------------------------------------------------*/
+    public function rewind(): void
+    {
+        reset($this->localeJsons);
+    }
+
+    #[ReturnTypeWillChange]
+    public function current()
+    {
+        return current($this->localeJsons);
+    }
+
+    #[ReturnTypeWillChange]
+    public function key()
+    {
+        return key($this->localeJsons);
+    }
+
+    public function next(): void
+    {
+        next($this->localeJsons);
+    }
+
+    public function valid(): bool
+    {
+        return ! is_null(key($this->localeJsons));
     }
 }
