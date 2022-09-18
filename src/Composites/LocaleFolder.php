@@ -2,11 +2,12 @@
 
 namespace ElaborateCode\JigsawLocalization\Composites;
 
+use ElaborateCode\JigsawLocalization\Contracts\LocaleFolderLoader;
 use ElaborateCode\JigsawLocalization\Helpers\File;
 use ElaborateCode\JigsawLocalization\LocalizationRepository;
 use Exception;
 
-class LocaleFolder
+class LocaleFolder implements LocaleFolderLoader
 {
     protected File $directory;
 
@@ -59,11 +60,12 @@ class LocaleFolder
         return $this->jsonsList;
     }
 
-    public function setJsons()
+    protected function setJsons()
     {
         $this->localeJsons = [];
 
         foreach ($this->jsonsList as $file_name => $abs_path) {
+            // ! use injection
             $this->localeJsons[$file_name] = new LocaleJson($abs_path);
         }
     }

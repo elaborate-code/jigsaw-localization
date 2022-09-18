@@ -2,11 +2,12 @@
 
 namespace ElaborateCode\JigsawLocalization\Composites;
 
+use ElaborateCode\JigsawLocalization\Contracts\LangFolderLoader;
 use ElaborateCode\JigsawLocalization\Factories\LocaleFolderFactory;
 use ElaborateCode\JigsawLocalization\Helpers\File;
 use ElaborateCode\JigsawLocalization\LocalizationRepository;
 
-class LangFolder
+class LangFolder implements LangFolderLoader
 {
     protected File $directory;
 

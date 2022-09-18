@@ -2,14 +2,15 @@
 
 namespace ElaborateCode\JigsawLocalization\Composites;
 
+use ElaborateCode\JigsawLocalization\Contracts\LocaleJsonLoader;
 use ElaborateCode\JigsawLocalization\Helpers\File;
 use Exception;
 
-class LocaleJson
+class LocaleJson implements LocaleJsonLoader
 {
     protected File $json;
 
-    protected null|array $content = [];
+    protected array $content = [];
 
     public function __construct(string $abs_path)
     {
@@ -19,10 +20,8 @@ class LocaleJson
 
         $this->json = new File($abs_path);
 
-        $this->content = json_decode(file_get_contents($this->json->getPath()), true);
-
         // TODO: It is possible to throw an exception when a JSON is empty or invalid
-        $this->content ??= [];
+        $this->content = json_decode(file_get_contents($this->json->getPath()), true) ?? [];
     }
 
     public function getContent(): array
