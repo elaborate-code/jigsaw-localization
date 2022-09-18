@@ -6,7 +6,6 @@ use Stringable;
 
 class File implements Stringable
 {
-
     /**
      * Realpath
      */
@@ -37,7 +36,7 @@ class File implements Stringable
             $files = array_splice($files, 2);
 
             foreach ($files as $file_name) {
-                $this->directoryContent[$file_name] = realpath($this->path . DIRECTORY_SEPARATOR . $file_name);
+                $this->directoryContent[$file_name] = realpath($this->path.DIRECTORY_SEPARATOR.$file_name);
             }
         }
     }
@@ -69,9 +68,9 @@ class File implements Stringable
             return;
         }
 
-        $realpath = realpath($this->projectRoot . DIRECTORY_SEPARATOR . $rel_path);
+        $realpath = realpath($this->projectRoot.DIRECTORY_SEPARATOR.$rel_path);
 
-        if (!$realpath) {
+        if (! $realpath) {
             throw new \Exception("Invalid relative path. Can't get absolute path from '$rel_path'!");
         }
 
@@ -93,17 +92,17 @@ class File implements Stringable
      */
     public function getDirectoryContent(): array
     {
-        if (!$this->isDir()) {
+        if (! $this->isDir()) {
             throw new \Exception("This object isn't a directory");
         }
 
         return $this->directoryContent;
     }
 
-
     protected function isJson(string $path): bool
     {
-        return strcmp(substr($path, -5), ".json") === 0;
+        // TODO: tell if $this is JSON when $path is_null
+        return strcmp(strtolower(substr($path, -5)), '.json') === 0;
     }
 
     /**
@@ -111,13 +110,13 @@ class File implements Stringable
      */
     public function getDirectoryJsonContent(): array
     {
-        if (!$this->isDir()) {
+        if (! $this->isDir()) {
             throw new \Exception("This object isn't a directory");
         }
 
         return array_filter(
             $this->directoryContent,
-            fn ($v, $k) => $this->isJson($v),
+            fn ($file_name, $abs_path) => $this->isJson($file_name),
             ARRAY_FILTER_USE_BOTH
         );
     }

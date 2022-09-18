@@ -1,9 +1,9 @@
 <?php
 
-use ElaborateCode\JigsawLocalization\Loaders\LangFolderLoader;
+use ElaborateCode\JigsawLocalization\Composites\LangFolder;
 
 it('lists available locals correctly', function () {
-    $lang_loader = new LangFolderLoader('/tests/feat/lang');
+    $lang_loader = new LangFolder('/tests/feat/lang');
 
     $this->assertContains('ar', $lang_loader->getLocalesList());
     $this->assertContains('en', $lang_loader->getLocalesList());
@@ -11,7 +11,7 @@ it('lists available locals correctly', function () {
 });
 
 it('dumps', function () {
-    $lang_loader = new LangFolderLoader('/tests/feat/lang');
+    $lang_loader = new LangFolder('/tests/feat/lang');
 
-    // var_dump($lang_loader->getLocalesLoadersList());
+    // var_dump($lang_loader->getLocales());
 });

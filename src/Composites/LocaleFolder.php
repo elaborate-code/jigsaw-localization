@@ -1,24 +1,23 @@
 <?php
 
-namespace ElaborateCode\JigsawLocalization\Loaders;
+namespace ElaborateCode\JigsawLocalization\Composites;
 
 use ElaborateCode\JigsawLocalization\Helpers\File;
 use Exception;
 use TightenCo\Jigsaw\Jigsaw;
 
-class LocaleFolderLoader
+class LocaleFolder
 {
+    protected File $directory;
 
     protected string $lang;
-
-    protected File $directory;
 
     private array $jsonsList;
 
     public function __construct(string $abs_path)
     {
-        if (!realpath($abs_path)) {
-            throw new Exception("Invalid absolute path '$abs_path' on LocaleFolderLoader instantiation");
+        if (! realpath($abs_path) || ! is_dir($abs_path)) {
+            throw new Exception("Invalid absolute folder path '$abs_path' on LocaleFolder instantiation");
         }
 
         $this->directory = new File($abs_path);
@@ -30,8 +29,7 @@ class LocaleFolderLoader
 
     protected function setLangFromPath(): void
     {
-        $temp = explode(DIRECTORY_SEPARATOR, $this->directory);
-        $this->lang = end($temp);
+        $this->lang = basename($this->directory->getPath());
     }
 
     public function getLang(): string
@@ -65,7 +63,6 @@ class LocaleFolderLoader
     {
         if ($this->isMulti()) {
             foreach ($this->jsonsList as $json) {
-
                 $multi_translations = $this->decoded_json($json);
 
                 foreach ($multi_translations as $lang => $translations) {
@@ -74,7 +71,6 @@ class LocaleFolderLoader
             }
         } else {
             foreach ($this->jsonsList as $json) {
-
                 $lang_translations = $this->decoded_json($json);
 
                 $this->pushTranslations($jigsaw, $lang_translations, $this->lang);

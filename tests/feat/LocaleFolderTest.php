@@ -1,14 +1,14 @@
 <?php
 
 use ElaborateCode\JigsawLocalization\Helpers\File;
-use ElaborateCode\JigsawLocalization\Helpers\LocaleFolderLoaderFactory;
+use ElaborateCode\JigsawLocalization\Helpers\LocaleFolderFactory;
 
 it('sets locale lang correctly', function () {
-    $factory = new LocaleFolderLoaderFactory;
+    $factory = new LocaleFolderFactory;
 
     $en = new File('/tests/feat/lang/en');
 
-    $locale = $factory->make($en, 'en');
+    $locale = $factory->make($en);
 
     $this->assertEquals($locale->getLang(), 'en');
 
@@ -16,11 +16,11 @@ it('sets locale lang correctly', function () {
 });
 
 it('assertJsonsList', function () {
-    $factory = new LocaleFolderLoaderFactory;
+    $factory = new LocaleFolderFactory;
 
     $en = new File('/tests/feat/lang/en');
 
-    $locale = $factory->make($en, 'en');
+    $locale = $factory->make($en);
 
     $this->assertArrayHasKey('en.json', $locale->getJsonsList());
 });
