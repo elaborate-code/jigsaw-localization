@@ -21,7 +21,7 @@ class File implements Stringable
     /**
      * 'file_name' => 'file_absolute_path'
      */
-    protected ?array $directoryContent;
+    protected array $directoryContent;
 
     public function __construct(string $rel_path = '')
     {
@@ -34,6 +34,8 @@ class File implements Stringable
         if ($this->isDir()) {
             $files = scandir($this->path);
             $files = array_splice($files, 2);
+
+            $this->directoryContent = [];
 
             foreach ($files as $file_name) {
                 $this->directoryContent[$file_name] = realpath($this->path.DIRECTORY_SEPARATOR.$file_name);

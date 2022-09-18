@@ -12,12 +12,12 @@ class LocaleFolder
 
     protected string $lang;
 
-    private array $jsonsList;
+    protected array $jsonsList;
 
     /**
      * @var array<LocaleJson>
      */
-    private array $localeJsons;
+    protected array $localeJsons;
 
     public function __construct(string $abs_path)
     {
@@ -30,6 +30,8 @@ class LocaleFolder
         $this->setLangFromPath();
 
         $this->setJsonsList();
+
+        $this->setJsons();
     }
 
     protected function setLangFromPath(): void
@@ -57,7 +59,7 @@ class LocaleFolder
         return $this->jsonsList;
     }
 
-    public function setJsosns()
+    public function setJsons()
     {
         $this->localeJsons = [];
 

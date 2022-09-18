@@ -8,6 +8,6 @@ it('gets JSON content correctly', function () {
 
     $json = new LocaleJson($file);
 
-    $this->assertArrayHasKey('yo', $json->getContent());
-    $this->assertContains('yo', $json->getContent());
+    $this->assertArrayHasKey('en', $json->getContent());
+    $this->assertContains('en', $json->getContent());
 });

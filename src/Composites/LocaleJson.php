@@ -9,7 +9,7 @@ class LocaleJson
 {
     protected File $json;
 
-    protected array $content = [];
+    protected null|array $content = [];
 
     public function __construct(string $abs_path)
     {
