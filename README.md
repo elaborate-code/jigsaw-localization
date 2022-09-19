@@ -1,9 +1,9 @@
 # Jigsaw localization
 
-![Packagist Version](https://img.shields.io/packagist/v/elaborate-code/jigsaw-localization?style=plastic)
-![Packagist Downloads](https://img.shields.io/packagist/dt/elaborate-code/jigsaw-localization?style=plastic)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/elaborate-code/jigsaw-localization/run-tests?label=tests&style=plastic)
-<!-- ![GitHub labels](https://img.shields.io/github/labels/elaborate-code/jigsaw-localization/help-wanted?style=plastic) -->
+![Packagist Version](https://img.shields.io/packagist/v/elaborate-code/jigsaw-localization?label=Version&style=plastic)
+![Packagist Downloads](https://img.shields.io/packagist/dt/elaborate-code/jigsaw-localization?label=Downloads&style=plastic)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/elaborate-code/jigsaw-localization/run-tests?label=Tests)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/elaborate-code/jigsaw-localization/Fix%20PHP%20code%20style%20issues?label=Code%20Style)
 
 ![banner](https://banners.beyondco.de/Jigsaw%20Localization.png?theme=dark&packageManager=composer+require&packageName=elaborate-code%2Fjigsaw-localization&pattern=jigsaw&style=style_1&description=Brings+localization+feature+to+%22tightenco%2Fjigsaw%22+using+JSON+files&md=1&showWatermark=0&fontSize=100px&images=globe)
 
