@@ -1,6 +1,6 @@
 <?php
 
-use ElaborateCode\JigsawLocalization\Helpers\File;
+use ElaborateCode\JigsawLocalization\Strategies\File;
 
 it('gets correct project root path', function () {
     $root_folder = new File;

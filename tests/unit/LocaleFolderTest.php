@@ -2,7 +2,7 @@
 
 use ElaborateCode\JigsawLocalization\Composites\LocaleFolder;
 use ElaborateCode\JigsawLocalization\Factories\LocaleFolderFactory;
-use ElaborateCode\JigsawLocalization\Helpers\File;
+use ElaborateCode\JigsawLocalization\Strategies\File;
 
 it('sets locale lang correctly', function () {
     $factory = new LocaleFolderFactory;

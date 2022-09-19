@@ -1,6 +1,6 @@
 <?php
 
-namespace ElaborateCode\JigsawLocalization\Helpers;
+namespace ElaborateCode\JigsawLocalization\Strategies;
 
 use Stringable;
 
@@ -48,16 +48,15 @@ class File implements Stringable
         return $this->path;
     }
 
+    /* =================================== */
+    //
+    /* =================================== */
+
     protected function setProjectRoot(): void
     {
         $reflection = new \ReflectionClass(\Composer\Autoload\ClassLoader::class);
 
         $this->projectRoot = realpath(dirname($reflection->getFileName(), 3));
-    }
-
-    public function getProjectRoot(): string
-    {
-        return $this->projectRoot;
     }
 
     protected function setPath(string $rel_path): void
@@ -79,15 +78,9 @@ class File implements Stringable
         $this->path = $realpath;
     }
 
-    public function getPath(): string
-    {
-        return $this->path;
-    }
-
-    public function isDir(): bool
-    {
-        return $this->isDir;
-    }
+    /* =================================== */
+    //
+    /* =================================== */
 
     /**
      * 'File_name' => 'file_absolute_path'
@@ -115,5 +108,24 @@ class File implements Stringable
             fn ($file_name, $abs_path) => is_json($file_name),
             ARRAY_FILTER_USE_BOTH
         );
+    }
+
+    /* =================================== */
+    //          Simple getters
+    /* =================================== */
+
+    public function isDir(): bool
+    {
+        return $this->isDir;
+    }
+
+    public function getProjectRoot(): string
+    {
+        return $this->projectRoot;
+    }
+
+    public function getPath(): string
+    {
+        return $this->path;
     }
 }

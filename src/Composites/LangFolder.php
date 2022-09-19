@@ -4,10 +4,10 @@ namespace ElaborateCode\JigsawLocalization\Composites;
 
 use ElaborateCode\JigsawLocalization\Contracts\LangFolderLoader;
 use ElaborateCode\JigsawLocalization\Factories\LocaleFolderFactory;
-use ElaborateCode\JigsawLocalization\Helpers\File;
 use ElaborateCode\JigsawLocalization\LocalizationRepository;
+use ElaborateCode\JigsawLocalization\Strategies\File;
 
-class LangFolder implements LangFolderLoader
+final class LangFolder implements LangFolderLoader
 {
     protected File $directory;
 
@@ -23,18 +23,29 @@ class LangFolder implements LangFolderLoader
      */
     public function __construct(string $lang_path = '/lang')
     {
+        // ! IOC
         $this->directory = new File($lang_path);
 
-        // ! INJECT
+        // ! IOC
         $this->localeFolderFactory = new LocaleFolderFactory;
 
         $this->setLocales();
     }
 
-    public function getLocalesList(): array
+    /* =================================== */
+    //             Interface
+    /* =================================== */
+
+    public function orderLoadingTranslations(LocalizationRepository $localization_repo): void
     {
-        return array_keys($this->directory->getDirectoryContent());
+        foreach ($this->localesList as $lang => $localeFolder) {
+            $localeFolder->loadTranslations($localization_repo);
+        }
     }
+
+    /* =================================== */
+    //          Setters
+    /* =================================== */
 
     protected function setLocales(): void
     {
@@ -45,15 +56,17 @@ class LangFolder implements LangFolderLoader
         }
     }
 
+    /* =================================== */
+    //          Simple getters
+    /* =================================== */
+
+    public function getLocalesList(): array
+    {
+        return array_keys($this->directory->getDirectoryContent());
+    }
+
     public function getLocales(): array
     {
         return $this->localesList;
-    }
-
-    public function orderLoadingTranslations(LocalizationRepository $localization_repo): void
-    {
-        foreach ($this->localesList as $lang => $localeFolder) {
-            $localeFolder->loadTranslations($localization_repo);
-        }
     }
 }

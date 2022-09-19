@@ -13,9 +13,10 @@ class LoadLocalization
 
     public function __construct()
     {
-        // ! INJECT
+        // ! IOC
         $this->langLoader = new LangFolder;
 
+        // ! IOC
         $this->localizationRepo = new LocalizationRepository;
     }
 
