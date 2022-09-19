@@ -16,5 +16,5 @@ it('complete', function () {
     $this->assertArrayHasKey('fr', $localizationRepo->getTranslations());
 
     $this->assertCount(0, $localizationRepo->getTranslations()['ar']);
-    $this->assertCount(4, $localizationRepo->getTranslations()['en']);
+    $this->assertCount(5, $localizationRepo->getTranslations()['en']);
 });

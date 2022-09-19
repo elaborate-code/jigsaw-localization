@@ -48,6 +48,7 @@ abstract class LocaleFolderLoader
 
     protected function setLangFromPath(): void
     {
+        //
         $this->lang = basename($this->directory->getPath());
     }
 
@@ -69,11 +70,6 @@ abstract class LocaleFolderLoader
     /* =================================== */
     //          Simple getters
     /* =================================== */
-
-    public function isMulti(): bool
-    {
-        return $this->lang === 'multi';
-    }
 
     public function getLang(): string
     {
