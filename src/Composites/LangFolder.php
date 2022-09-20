@@ -3,6 +3,7 @@
 namespace ElaborateCode\JigsawLocalization\Composites;
 
 use ElaborateCode\JigsawLocalization\Contracts\LangFolderLoader;
+use ElaborateCode\JigsawLocalization\Contracts\LocaleFolderLoader;
 use ElaborateCode\JigsawLocalization\Factories\LocaleFolderFactory;
 use ElaborateCode\JigsawLocalization\LocalizationRepository;
 use ElaborateCode\JigsawLocalization\Strategies\File;
@@ -14,7 +15,7 @@ final class LangFolder implements LangFolderLoader
     protected LocaleFolderFactory $localeFolderFactory;
 
     /**
-     * @var array<LocaleFolder> 'lang_code' => LocaleFolder instance
+     * @var array<LocaleFolderLoader> 'lang_code' => LocaleFolderLoader instance
      */
     protected array $localesList;
 
