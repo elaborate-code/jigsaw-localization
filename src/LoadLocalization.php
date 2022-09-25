@@ -2,29 +2,16 @@
 
 namespace ElaborateCode\JigsawLocalization;
 
-use ElaborateCode\JigsawLocalization\Composites\LangFolder;
+use ElaborateCode\JsonTongue\TongueFacade;
 use TightenCo\Jigsaw\Jigsaw;
 
 class LoadLocalization
 {
-    protected LangFolder $langLoader;
-
-    protected LocalizationRepository $localizationRepo;
-
-    public function __construct()
-    {
-        // ! IOC
-        $this->langLoader = new LangFolder;
-
-        // ! IOC
-        $this->localizationRepo = new LocalizationRepository;
-    }
-
     public function handle(Jigsaw $jigsaw)
     {
-        $this->langLoader->orderLoadingTranslations($this->localizationRepo);
+        $tongue = new TongueFacade('/lang');
 
-        $jigsaw->setConfig('localization', $this->localizationRepo->getTranslations());
+        $jigsaw->setConfig('localization', $tongue->transcribe());
 
         $this->registerCurrentPathLangHelper($jigsaw);
         $this->registerTranslationRetrieverHelper($jigsaw);

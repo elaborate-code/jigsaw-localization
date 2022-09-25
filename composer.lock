@@ -4,8 +4,68 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d689404098275957b346231ac3be28c",
-    "packages": [],
+    "content-hash": "2ad0a84b546611424425481cbfe3d62b",
+    "packages": [
+        {
+            "name": "elaborate-code/php-json-tongue",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/elaborate-code/php-json-tongue.git",
+                "reference": "1f41d511d638be074a554d481f21ad3175a61c44"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/elaborate-code/php-json-tongue/zipball/1f41d511d638be074a554d481f21ad3175a61c44",
+                "reference": "1f41d511d638be074a554d481f21ad3175a61c44",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.2",
+                "pestphp/pest": "^1.22",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Helpers/helpers.php"
+                ],
+                "psr-4": {
+                    "ElaborateCode\\JsonTongue\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohamed Ilies BOUDOUMA",
+                    "email": "medilies.contact@gmail.com"
+                }
+            ],
+            "description": "A Facade for loading localization data from JSONs within a lang folder",
+            "homepage": "https://github.com/elaborate-code/php-json-tongue",
+            "keywords": [
+                "internationalization",
+                "json",
+                "languages",
+                "locale",
+                "localization",
+                "translation"
+            ],
+            "support": {
+                "issues": "https://github.com/elaborate-code/php-json-tongue/issues",
+                "source": "https://github.com/elaborate-code/php-json-tongue/tree/v1.0.0"
+            },
+            "time": "2022-09-25T19:16:05+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "doctrine/inflector",
