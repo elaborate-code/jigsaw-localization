@@ -18,7 +18,7 @@ function current_path_lang($page): string
     $default_lang = $page->default_lang ?? 'en';
 
     // Set $lang from path (4 cases)
-    if (!str_contains($path, '/')) {
+    if (! str_contains($path, '/')) {
         // index page
         if (empty($path)) {
             return $default_lang;
@@ -29,7 +29,7 @@ function current_path_lang($page): string
         $lang = explode('/', $path)[1];
 
         // TODO: regex match 'xx' and 'xx_YY' lang codes
-        if (!ctype_lower($lang) || strlen($lang) > 2) {
+        if (! ctype_lower($lang) || strlen($lang) > 2) {
             $lang = $default_lang;
         }
     }
@@ -48,9 +48,9 @@ function translated_url($page, string $trans_lang, string|null $current_lang = n
         $page->getPath() :
         substr($page->getPath(), 3);
 
-    $path = "/$trans_lang" . $partial_path;
+    $path = "/$trans_lang".$partial_path;
 
-    if (str_starts_with($path, '/' . $page->default_lang)) {
+    if (str_starts_with($path, '/'.$page->default_lang)) {
         $path = substr($path, 3);
     }
 
@@ -66,14 +66,14 @@ function lang_url($page, string $partial_path, string|null $current_lang = null)
 {
     $current_lang ??= $page->current_path_lang();
 
-    if (!str_starts_with($partial_path, '/')) {
+    if (! str_starts_with($partial_path, '/')) {
         $partial_path = "/$partial_path";
     }
 
     if ($current_lang === $page->default_lang) {
         return $page->url($partial_path);
     } else {
-        return $page->url("/$current_lang" . $partial_path);
+        return $page->url("/$current_lang".$partial_path);
     }
 }
 
