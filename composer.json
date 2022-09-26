@@ -29,6 +29,11 @@
             "ElaborateCode\\JigsawLocalization\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "ElaborateCode\\JigsawLocalization\\Mocks\\": "tests/_Mocks"
+        }
+    },
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
