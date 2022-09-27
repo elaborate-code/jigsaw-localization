@@ -4,9 +4,7 @@ function __($page, string $text, string|null $current_lang = null): string
 {
     $current_lang ??= $page->current_path_lang();
 
-    return isset($page->localization[$current_lang][$text]) ?
-        $page->localization[$current_lang][$text] :
-        $text;
+    return $page->localization[$current_lang][$text] ?? $text;
 }
 
 /**
@@ -40,7 +38,8 @@ function translated_url($page, string $trans_lang, string|null $current_lang = n
 {
     $current_lang ??= $page->current_path_lang();
 
-    $partial_path = $current_lang === $page->default_lang ?
+    $partial_path =
+        $current_lang === $page->default_lang ?
         $page->getPath() :
         substr($page->getPath(), 3);
 
@@ -50,9 +49,7 @@ function translated_url($page, string $trans_lang, string|null $current_lang = n
         $path = substr($path, 3);
     }
 
-    return empty($path) ?
-        $page->url('/') :
-        $page->url($path);
+    return empty($path) ? url('/') : url($path);
 }
 
 /**
