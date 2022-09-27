@@ -11,30 +11,26 @@ function __($page, string $text, string|null $current_lang = null): string
 
 /**
  * ! This helper relies on the language prefix folder structure
+ * TODO: replace 'lang' with 'locale'
+ *
+ * @see https://www.w3.org/International/articles/language-tags/
+ * @see https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry
  */
 function current_path_lang($page): string
 {
-    $path = $page->getPath();
+    $path = trim($page->getPath(), '/');
+
     $default_lang = $page->default_lang ?? 'en';
 
-    // Set $lang from path (4 cases)
-    if (! str_contains($path, '/')) {
-        // index page
-        if (empty($path)) {
-            return $default_lang;
-        } else {
-            return $path;
-        }
-    } else {
-        $lang = explode('/', $path)[1];
+    /**
+     * [a-z]{2,3} language code
+     * [A-Z]{2} country code
+     */
+    $locale_regex = '/^(?<locale>(?:[a-z]{2,3}-[A-Z]{2})|(?:[a-z]{2,3}))(?:[^a-zA-Z]|$)/';
 
-        // TODO: regex match 'xx' and 'xx_YY' lang codes
-        if (! ctype_lower($lang) || strlen($lang) > 2) {
-            $lang = $default_lang;
-        }
-    }
+    preg_match($locale_regex, $path, $matches);
 
-    return $lang;
+    return $matches['locale'] ?? $default_lang;
 }
 
 /**
