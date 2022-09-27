@@ -7,8 +7,9 @@ function __($page, string $text, string|null $current_lang = null): string
     return $page->localization[$current_lang][$text] ?? $text;
 }
 
+// ! The following helpers relies on the language prefix folder structure
+
 /**
- * ! This helper relies on the language prefix folder structure
  * TODO: replace 'lang' with 'locale'
  *
  * @see https://www.w3.org/International/articles/language-tags/
@@ -31,9 +32,6 @@ function current_path_lang($page): string
     return $matches['locale'] ?? $default_lang;
 }
 
-/**
- * ! This helper relies on the language prefix folder structure
- */
 function translated_url($page, string|null $trans_lang = null): string
 {
     $trans_lang ??= 'en';
@@ -51,39 +49,14 @@ function translated_url($page, string|null $trans_lang = null): string
     };
 }
 
-/**
- * ! This helper relies on the language prefix folder structure
- */
-function lang_url($page, string $partial_path, string|null $current_lang = null): string
+function lang_url($page, string $partial_path, string|null $target_lang = null): string
 {
-    $current_lang ??= $page->current_path_lang();
+    $target_lang ??= current_path_lang($page);
 
-    if (! str_starts_with($partial_path, '/')) {
-        $partial_path = "/$partial_path";
-    }
+    $partial_path = '/'.trim($partial_path, '/');
 
-    if ($current_lang === $page->default_lang) {
-        return $page->url($partial_path);
-    } else {
-        return $page->url("/$current_lang".$partial_path);
-    }
+    return match (true) {
+        $target_lang === $page->default_lang => url($partial_path),
+        default => url("/{$target_lang}{$partial_path}")
+    };
 }
-
-/**
- * ! Jigsaw ships with the same helper
- * Generates a fully qualified URL to the given path.
- */
-// function url($page, string $path): string
-// {
-//     $baseUrl = $page->baseUrl ?? '';
-
-//     if (! str_ends_with($baseUrl, '/')) {
-//         $baseUrl .= '/';
-//     }
-
-//     if (str_starts_with($path, '/')) {
-//         $path = substr($path, 1);
-//     }
-
-//     return $baseUrl.$path;
-// }

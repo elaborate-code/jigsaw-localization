@@ -2,11 +2,6 @@
 
 use ElaborateCode\JigsawLocalization\Mocks\PageMock;
 
-function url(string $path): string
-{
-    return '/'.trim($path, '/');
-}
-
 test('path es => ar', function () {
     $page = (new PageMock)->setPath('/es/blog');
 
