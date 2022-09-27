@@ -2,8 +2,6 @@
 
 namespace ElaborateCode\JigsawLocalization\Mocks;
 
-use Exception;
-
 class PageMock
 {
     protected string $path = '';
