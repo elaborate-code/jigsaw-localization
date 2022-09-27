@@ -14,7 +14,7 @@ it('returns DEFAULT_LOCALE code', function () {
 it('returns language code', function () {
     expect([
         current_path_lang((new PageMock)->setPath('/es')),
-        current_path_lang((new PageMock)->setPath('es/blog')),
+        current_path_lang((new PageMock)->setPath('/es/blog')),
     ])
         ->each
         ->toBe('es');
@@ -23,7 +23,7 @@ it('returns language code', function () {
 it('returns language+region code', function () {
     expect([
         current_path_lang((new PageMock)->setPath('/haw-US')),
-        current_path_lang((new PageMock)->setPath('haw-US/blog')),
+        current_path_lang((new PageMock)->setPath('/haw-US/blog')),
     ])
         ->each
         ->toBe('haw-US');

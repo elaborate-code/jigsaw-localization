@@ -34,22 +34,21 @@ function current_path_lang($page): string
 /**
  * ! This helper relies on the language prefix folder structure
  */
-function translated_url($page, string $trans_lang, string|null $current_lang = null): string
+function translated_url($page, string|null $trans_lang = null): string
 {
-    $current_lang ??= $page->current_path_lang();
+    $trans_lang ??= 'en';
 
-    $partial_path =
-        $current_lang === $page->default_lang ?
-        $page->getPath() :
-        substr($page->getPath(), 3);
+    $current_lang = current_path_lang($page);
 
-    $path = "/$trans_lang".$partial_path;
+    $partial_path = match (true) {
+        $current_lang === $page->default_lang => $page->getPath(),
+        default => substr($page->getPath(), strlen($current_lang) + 1),
+    };
 
-    if (str_starts_with($path, '/'.$page->default_lang)) {
-        $path = substr($path, 3);
-    }
-
-    return empty($path) ? url('/') : url($path);
+    return match (true) {
+        $trans_lang === $page->default_lang => "{$partial_path}",
+        default => "/{$trans_lang}{$partial_path}",
+    };
 }
 
 /**

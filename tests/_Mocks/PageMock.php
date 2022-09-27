@@ -2,15 +2,19 @@
 
 namespace ElaborateCode\JigsawLocalization\Mocks;
 
+use Exception;
+
 class PageMock
 {
     protected string $path = '';
+
+    public string $default_lang = 'en';
 
     public array $localization = [];
 
     public function setPath(string $path): static
     {
-        $this->path = $path;
+        $this->path = '/'.trim($path, '/');
 
         return $this;
     }
