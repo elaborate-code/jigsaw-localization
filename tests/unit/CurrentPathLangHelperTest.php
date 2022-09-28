@@ -8,7 +8,7 @@ it('returns DEFAULT_LOCALE code', function () {
         current_path_lang((new PageMock)->setPath('/blog')),
     ])
         ->each
-        ->toBe('en');
+        ->toBe(packageDefaultLang());
 });
 
 it('returns language code', function () {

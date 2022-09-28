@@ -8,9 +8,14 @@ class PageMock
 {
     protected string $path = '';
 
-    public string $default_lang = 'en';
+    public string $default_lang;
 
     public array $localization = [];
+
+    public function __construct()
+    {
+        $this->default_lang = packageDefaultLang();
+    }
 
     public function setPath(string $path): static
     {

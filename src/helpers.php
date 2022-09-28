@@ -19,7 +19,7 @@ function current_path_lang($page): string
 {
     $path = trim($page->getPath(), '/');
 
-    $default_lang = $page->default_lang ?? 'en';
+    $default_lang = $page->default_lang ?? packageDefaultLang();
 
     /**
      * [a-z]{2,3} language code
@@ -34,7 +34,7 @@ function current_path_lang($page): string
 
 function translated_url($page, string|null $trans_lang = null): string
 {
-    $trans_lang ??= 'en';
+    $trans_lang ??= packageDefaultLang();
 
     $current_lang = current_path_lang($page);
 
@@ -59,4 +59,10 @@ function lang_url($page, string $partial_path, string|null $target_lang = null):
         $target_lang === $page->default_lang => url($partial_path),
         default => url("/{$target_lang}{$partial_path}")
     };
+}
+
+// ===========================================
+function packageDefaultLang(): string
+{
+    return 'en';
 }

@@ -27,7 +27,7 @@ test('path from DEFAULT_LOCALE', function () {
     expect(translated_url((new PageMock)->setPath('/blog'), 'ar'))->toBe('/ar/blog');
     expect(translated_url((new PageMock)->setPath('/blog'), 'en-UK'))->toBe('/en-UK/blog');
     expect(translated_url((new PageMock)->setPath('/blog'), 'haw-US'))->toBe('/haw-US/blog');
-    expect(translated_url((new PageMock)->setPath('/blog'), 'en'))->toBe('/blog');
+    expect(translated_url((new PageMock)->setPath('/blog'), packageDefaultLang()))->toBe('/blog');
 });
 
 test('path to DEFAULT_LOCALE', function () {
