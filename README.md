@@ -41,72 +41,33 @@ $events->beforeBuild([LoadLocalization::class]);
 
 File structure example:
 
-```text
-/lang
-    /en
-        homepage.json
-        aboutpage.json
-        ...
-    /fr
-        homepage.json
-        aboutpage.json
-        ...
-    ...
-```
-
-`lang\en\homepage.json` example:
-
-```json
-{
-    "Good morning": "Good morning",
-    "view": "view",
-    "fast": "fast",
-}
-```
-
-`lang\fr\homepage.json` example:
-
-```json
-{
-    "Good morning": "bonjour",
-    "view": "vue",
-    "fast": "vite",
-}
-```
+![example](https://raw.githubusercontent.com/elaborate-code/php-json-tongue/main/illustration.png)
 
 #### Retrieving Translation Strings
 
-Source files example:
+Source example:
 
 ```php
-// source\index.blade.php
+<h2> {{ __("Good morning", 'en') }} </h2>
 
-<h2> {{ $page->__("Good morning", 'en') }} </h2>
+<h2> {{ __("programmer", 'es') }} </h2>
+
+<h2> {{ __("Good morning", 'fr') }} </h2>
 ```
 
-```php
-// source\fr\index.blade.php
-
-<h2> {{ $page->__("Good morning", 'fr') }} </h2>
-```
-
-The outputted files:
+The output:
 
 ```html
-<!-- build_.*\index.html -->
-
 <h2> Good morning </h2>
-```
 
-```html
-<!-- build_.*\fr\index.html -->
+<h2> programador </h2>
 
 <h2> Bonjour </h2>
 ```
 
 ## The special multi folder
 
-For the organizational purpose you can group internationalized translations in one JSON using many `lang` keys.
+For organizational purpose you can group internationalized translations in one JSON using many `lang` keys.
 
 ```text
 /lang
@@ -121,10 +82,6 @@ For the organizational purpose you can group internationalized translations in o
 
 ```json
 {
-    "en":{
-        "Hello": "Hello",
-        "Goodbye": "Goodbye"
-    },
     "fr":{
         "Hello": "Salut",
         "Goodbye": "Au revoir"
@@ -138,12 +95,12 @@ For the organizational purpose you can group internationalized translations in o
 
 > First level keys must be lang codes
 
-## Using folder structure for lang prefix
+## Using folder structure for locale code prefix
 
-This section explains how to dump the `__` helper `current_lang` second argument for a more intuitive approach.
+This section explains how to dump the `__` helper second argument `current_lang` for a more intuitive approach.
 
 ```php
-echo $page->__($text);
+echo __($text);
 ```
 
 ### The default lang
@@ -168,7 +125,7 @@ return [
 
 > example.com/{lang}
 
-Pages that reside in the web root folder `source` are assumed to be rendered using the `default_lang`. Other pages that reside in **subfolders named after a locale code** have their **language** set to the **subfolder name**
+Pages that reside in the web root folder `source` are assumed to be rendered using the `default_lang`. Other pages that reside in **subfolders named after a locale code** have their **locale** set to the **subfolder name**
 
 ```text
 /source
@@ -229,29 +186,16 @@ You may find your self creating a fully coded `source/index.blade.php` and repea
 Returns the `current_lang` string *deduced from the lang prefix folder structure*.
 
 ```php
-$page->current_path_lang()
+current_path_lang()
 ```
 
 Usage example
 
 ```php
 <!DOCTYPE html>
-<html lang="{{ $page->current_path_lang() }}">
+<html lang="{{ current_path_lang() }}">
     <head>
     <!-- ... -->
-```
-
-### url
-
-```php
-$page->url($path)
-```
-
-```php
-// baseUrl = 'example.com/e-commerce-project'
-$page->url('/'); // example.com/e-commerce-project
-$page->url('/fr/contact'); // example.com/e-commerce-project/fr/contact
-$page->url('es/about'); // example.com/e-commerce-project/es/about
 ```
 
 ### translated_url
@@ -259,7 +203,7 @@ $page->url('es/about'); // example.com/e-commerce-project/es/about
 When you have a page that is available in many languages. `translated_url` helps you get the equivalent translated route `href`.
 
 ```php
-$page->translated_url($translation_lang)
+translated_url($translation_lang)
 ```
 
 input/output examples:
@@ -278,7 +222,7 @@ Usage example:
 ```php
 <nav>
     @foreach(['en', 'es', 'fr'] as $translation_lang)
-        <a href="{{ $page->translated_url($translation_lang) }}"> {{ $translation_lang }} </a>
+        <a href="{{ translated_url($translation_lang) }}"> {{ $translation_lang }} </a>
     @endforeach
 </nav>
 ```
