@@ -4,7 +4,7 @@ use ElaborateCode\JigsawLocalization\Mocks\PageMock;
 
 it('returns DEFAULT_LOCALE code', function () {
     expect([
-        current_path_lang((new PageMock)->setPath('')),
+        current_path_lang((new PageMock)->setPath('/')),
         current_path_lang((new PageMock)->setPath('/blog')),
     ])
         ->each
