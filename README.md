@@ -11,6 +11,10 @@ Brings localization feature to [tightenco/jigsaw](https://jigsaw.tighten.com/) u
 
 ## Get started
 
+### Requirements
+
+- PHP 8.0 or higher.
+
 ### Setup
 
 Bring [jigsaw-localization](https://packagist.org/packages/elaborate-code/jigsaw-localization) to your `Jigsaw` project.
@@ -48,11 +52,11 @@ File structure example:
 Source example:
 
 ```php
-<h2> {{ __("Good morning", 'en') }} </h2>
+<h2> {{ __($page, "Good morning", 'en') }} </h2>
 
-<h2> {{ __("programmer", 'es') }} </h2>
+<h2> {{ __($page, "programmer", 'es') }} </h2>
 
-<h2> {{ __("Good morning", 'fr') }} </h2>
+<h2> {{ __($page, "Good morning", 'fr') }} </h2>
 ```
 
 The output:
@@ -65,9 +69,13 @@ The output:
 <h2> Bonjour </h2>
 ```
 
-## The special multi folder
+#### Locale code format
 
-For organizational purpose you can group internationalized translations in one JSON using many `lang` keys.
+`two or three lowercase letters` for the language code + **optionally** `a dash (-) with two uppercase letters` for the region code. For example, all the following codes `ar`, `es`, `fr-CA`, `haw-US` are considered valid.
+
+## The multi folder
+
+For organizational purpose you can group internationalized translations in one JSON using many `locale` keys.
 
 ```text
 /lang
@@ -100,12 +108,12 @@ For organizational purpose you can group internationalized translations in one J
 This section explains how to dump the `__` helper second argument `current_locale` for a more intuitive approach.
 
 ```php
-echo __($text);
+echo __($page, $text);
 ```
 
 ### The default lang
 
-First you should know that this package takes in consideration a parameter named `default_locale`. It set it to `en` by default but you can change it to any other value using `default_locale` key in `config.php`
+First you need to define `defaultLocale` in `config.php`. If not set, the package with take `en` as a default.
 
 ```php
 <?php
@@ -114,18 +122,18 @@ First you should know that this package takes in consideration a parameter named
 
 return [
     // ...
-    'default_locale' => 'es',
+    'defaultLocale' => 'es',
     // ...
 ];
 ```
 
-> Note that the explicit `$lang` argument has higher precedence than the `lang` deduced from the folder structure!
+> If you provide the `__` helper with the `locale` parameter it will proceed with it and ignore the folder structure.
 
 ### The folder structure
 
 > example.com/{lang}
 
-Pages that reside in the web root folder `source` are assumed to be rendered using the `default_locale`. Other pages that reside in **subfolders named after a locale code** have their **locale** set to the **subfolder name**
+Pages that reside in the web root folder `source` are assumed to be rendered using the `defaultLocale`. Other pages that reside in **subfolders named after a locale code** have their **locale** set to the **subfolder name**
 
 ```text
 /source
@@ -177,19 +185,19 @@ You may find your self creating a fully coded `source/index.blade.php` and repea
 
 ## Helpers
 
-> IMPORTANT: The following helpers require that you respect the lang prefix folder structure!
->
+> IMPORTANT: The following helpers require that you respect the locale prefix folder structure!
+
 > Setting `baseUrl` in **config** is essential if your site root URL isn't 'example.com/index.html'
 
 ### current_path_locale
 
-Returns the `current_locale` string *deduced from the lang prefix folder structure*.
+Returns the `current_locale` *deduced from the lang prefix folder structure*.
 
 ```php
-current_path_locale()
+current_path_locale() // ar | es | fr-CA | haw-US
 ```
 
-Usage example
+Usage example:
 
 ```php
 <!DOCTYPE html>
@@ -200,47 +208,55 @@ Usage example
 
 ### translate_path
 
-When you have a page that is available in many languages. `translate_path` helps you get the equivalent translated route `href`.
+When you have a page that is available in many languages. `translate_path` helps you get the equivalent translated `path`.
 
 ```php
-translate_path($translation_lang)
+translate_path($target_locale)
 ```
 
 input/output examples:
 
-| current path  | translated path | current_locale to translation_lang |
-| ------------- | --------------- | -------------------------------- |
-| ""            | "/fr"           | default -> fr                    |
-| "/contact"    | "/fr/contact"   | default -> fr                    |
-| "/fr"         | "/"             | fr -> default                    |
-| "/fr/contact" | "/contact"      | fr -> default                    |
-| "/es/contact" | "/fr/contact"   | es -> fr                         |
-| "/es"         | "/fr"           | es -> fr                         |
+| current path  | translated path  | current_locale to target_locale |
+| ------------- | ---------------- | ------------------------------- |
+| ""            | "/fr"            | default -> fr                   |
+| "/contact"    | "/fr/contact"    | default -> fr                   |
+| "/fr"         | "/"              | fr -> default                   |
+| "/fr/contact" | "/contact"       | fr -> default                   |
+| "/es/contact" | "/fr-CA/contact" | es -> fr-CA                     |
+| "/es"         | "/fr-CA"         | es -> fr-CA                     |
 
 Usage example:
 
 ```php
 <nav>
-    @foreach(['en', 'es', 'fr'] as $translation_lang)
-        <a href="{{ translate_path($translation_lang) }}"> {{ $translation_lang }} </a>
+    @foreach(['en', 'es', 'fr'] as $locale)
+        <a href="{{ translate_path($locale) }}"> {{ $locale }} </a>
     @endforeach
 </nav>
 ```
 
-### locale_url
+### locale_path
 
-To avoid hard coding the `current_locale` into `URLs`, input only the partial path that comes after the lang part into this helper and it will handle the rest for you.  
+To avoid hard coding the `current_locale` into `paths`, input only the partial path that comes after the `locale code` part into this helper and it will handle the rest for you.  
 
 ```php
-$href = locale_url($url)
+$href = locale_path($partial_path)
 ```
 
-| $url       | current_locale | href          |
-| ---------- | ------------ | ------------- |
-| "" or "/"  | DEFAULT      | "/"           |
-| "" or "/"  | "fr"         | "/fr"         |
-| "/contact" | DEFAULT      | "/contact"    |
-| "/contact" | "fr"         | "/fr/contact" |
+| $partial_path | current_locale | href          |
+| ------------- | -------------- | ------------- |
+| "/"           | DEFAULT        | "/"           |
+| "/"           | "fr"           | "/fr"         |
+| "/contact"    | DEFAULT        | "/contact"    |
+| "/contact"    | "fr"           | "/fr/contact" |
+
+### locale_url
+
+Just like the `locale_path` helper, but it prepends the `baseUrl` if set in the config.
+
+```php
+$href = locale_url($partial_path)
+```
 
 ## Live test
 
@@ -248,12 +264,8 @@ Wanna see a project that is up and running with this library? checkout this [rep
 
 ## TODO
 
-- Add testing.
-- Check the minimum required PHP version.
-- Automated github actions for testing.
 - Check behavior with non A-Z languages.
-- Support 5 characters language codes `xx_YY`.
-- Add possibility to customize path structure to deduce current lang (for example set /blog/{lang}/... as a possible pattern).
+- Add possibility to customize path structure to deduce current locale (for example set /blog/{locale}/... as a possible pattern).
 
 ## Contributing
 

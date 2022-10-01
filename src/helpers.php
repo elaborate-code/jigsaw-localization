@@ -29,7 +29,7 @@ function current_path_locale($page): string
 {
     $path = trim($page->getPath(), '/');
 
-    $default_locale = $page->default_locale ?? packageDefaultLocale();
+    $default_locale = $page->defaultLocale ?? packageDefaultLocale();
 
     /**
      * - [a-z]{2,3} language code
@@ -56,12 +56,12 @@ function translate_path($page, ?string $target_locale = null): string
     $current_locale = current_path_locale($page);
 
     $partial_path = match (true) {
-        $current_locale === $page->default_locale => $page->getPath(),
+        $current_locale === $page->defaultLocale => $page->getPath(),
         default => substr($page->getPath(), strlen($current_locale) + 1),
     };
 
     return match (true) {
-        $target_locale === $page->default_locale => "{$partial_path}",
+        $target_locale === $page->defaultLocale => "{$partial_path}",
         default => "/{$target_locale}{$partial_path}",
     };
 }
@@ -72,22 +72,33 @@ function translate_path($page, ?string $target_locale = null): string
  * @param  mixed  $page
  * @param  string  $partial_path A path without the language prefix
  * @param  ?string  $target_locale uses the default locale if null
- * @return string A URL on the target locale
+ * @return string A path on the target locale
  */
-function locale_url($page, string $partial_path, ?string $target_locale = null): string
+function locale_path($page, string $partial_path, ?string $target_locale = null): string
 {
     $target_locale ??= current_path_locale($page);
 
     $partial_path = '/'.trim($partial_path, '/');
 
     return match (true) {
-        $target_locale === $page->default_locale => url($partial_path),
-        default => url("/{$target_locale}{$partial_path}")
+        $target_locale === $page->defaultLocale => $partial_path,
+        default => "/{$target_locale}{$partial_path}"
     };
+}
+
+/**
+ * @param  mixed  $page
+ * @param  string  $partial_path A path without the language prefix
+ * @param  ?string  $target_locale uses the default locale if null
+ * @return string A URL on the target locale
+ */
+function locale_url($page, string $partial_path, ?string $target_locale = null): string
+{
+    return url(locale_path($page, $partial_path, $target_locale));
 }
 
 // ===========================================
 function packageDefaultLocale($page = null): string
 {
-    return $page->default_locale ?? 'en';
+    return $page->defaultLocale ?? 'en';
 }
