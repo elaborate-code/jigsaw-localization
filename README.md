@@ -97,7 +97,7 @@ For organizational purpose you can group internationalized translations in one J
 
 ## Using folder structure for locale code prefix
 
-This section explains how to dump the `__` helper second argument `current_lang` for a more intuitive approach.
+This section explains how to dump the `__` helper second argument `current_locale` for a more intuitive approach.
 
 ```php
 echo __($text);
@@ -105,7 +105,7 @@ echo __($text);
 
 ### The default lang
 
-First you should know that this package takes in consideration a parameter named `default_lang`. It set it to `en` by default but you can change it to any other value using `default_lang` key in `config.php`
+First you should know that this package takes in consideration a parameter named `default_locale`. It set it to `en` by default but you can change it to any other value using `default_locale` key in `config.php`
 
 ```php
 <?php
@@ -114,7 +114,7 @@ First you should know that this package takes in consideration a parameter named
 
 return [
     // ...
-    'default_lang' => 'es',
+    'default_locale' => 'es',
     // ...
 ];
 ```
@@ -125,7 +125,7 @@ return [
 
 > example.com/{lang}
 
-Pages that reside in the web root folder `source` are assumed to be rendered using the `default_lang`. Other pages that reside in **subfolders named after a locale code** have their **locale** set to the **subfolder name**
+Pages that reside in the web root folder `source` are assumed to be rendered using the `default_locale`. Other pages that reside in **subfolders named after a locale code** have their **locale** set to the **subfolder name**
 
 ```text
 /source
@@ -151,9 +151,9 @@ Pages that reside in the web root folder `source` are assumed to be rendered usi
 You may find your self creating a fully coded `source/index.blade.php` and repeating the same code in `source/fr/index.blade.php` and for other languages. To avoid that we suggest the following approach:
 
 1. Create a `source/_pages` directory which will contain the master pages.
-2. A master page will look like any other ordinary page, *it will have the HTML structure and calls to `__` but no hardcoded `$current_lang` value* .For example You may directly copy the content of `source/index.blade.php` to `source/_pages/index.blade.php`.
+2. A master page will look like any other ordinary page, *it will have the HTML structure and calls to `__` but no hardcoded `$current_locale` value* .For example You may directly copy the content of `source/index.blade.php` to `source/_pages/index.blade.php`.
 3. **Include** the master page into other pages that are language aware.
-4. The included content will be able to know which **language** to apply on the translation helper `__` calls as a `$current_lang`.
+4. The included content will be able to know which **language** to apply on the translation helper `__` calls as a `$current_locale`.
 
 ```text
 /source
@@ -181,34 +181,34 @@ You may find your self creating a fully coded `source/index.blade.php` and repea
 >
 > Setting `baseUrl` in **config** is essential if your site root URL isn't 'example.com/index.html'
 
-### current_path_lang
+### current_path_locale
 
-Returns the `current_lang` string *deduced from the lang prefix folder structure*.
+Returns the `current_locale` string *deduced from the lang prefix folder structure*.
 
 ```php
-current_path_lang()
+current_path_locale()
 ```
 
 Usage example
 
 ```php
 <!DOCTYPE html>
-<html lang="{{ current_path_lang() }}">
+<html lang="{{ current_path_locale() }}">
     <head>
     <!-- ... -->
 ```
 
-### translated_url
+### translate_path
 
-When you have a page that is available in many languages. `translated_url` helps you get the equivalent translated route `href`.
+When you have a page that is available in many languages. `translate_path` helps you get the equivalent translated route `href`.
 
 ```php
-translated_url($translation_lang)
+translate_path($translation_lang)
 ```
 
 input/output examples:
 
-| current path  | translated path | current_lang to translation_lang |
+| current path  | translated path | current_locale to translation_lang |
 | ------------- | --------------- | -------------------------------- |
 | ""            | "/fr"           | default -> fr                    |
 | "/contact"    | "/fr/contact"   | default -> fr                    |
@@ -222,20 +222,20 @@ Usage example:
 ```php
 <nav>
     @foreach(['en', 'es', 'fr'] as $translation_lang)
-        <a href="{{ translated_url($translation_lang) }}"> {{ $translation_lang }} </a>
+        <a href="{{ translate_path($translation_lang) }}"> {{ $translation_lang }} </a>
     @endforeach
 </nav>
 ```
 
-### lang_url
+### locale_url
 
-To avoid hard coding the `current_lang` into `URLs`, input only the partial path that comes after the lang part into this helper and it will handle the rest for you.  
+To avoid hard coding the `current_locale` into `URLs`, input only the partial path that comes after the lang part into this helper and it will handle the rest for you.  
 
 ```php
-$href = lang_url($url)
+$href = locale_url($url)
 ```
 
-| $url       | current_lang | href          |
+| $url       | current_locale | href          |
 | ---------- | ------------ | ------------- |
 | "" or "/"  | DEFAULT      | "/"           |
 | "" or "/"  | "fr"         | "/fr"         |
