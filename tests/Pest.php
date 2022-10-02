@@ -11,12 +11,4 @@
 |
 */
 
-// uses(Tests\TestCase::class)->in('Feature');
-
-/**
- * ! does not take in count the base url
- */
-function url(string $path): string
-{
-    return '/'.trim($path, '/');
-}
+uses(Tests\TestCase::class)->in('unit/LocaleUrlHelperTest.php');
