@@ -12,3 +12,4 @@
 */
 
 uses(Tests\TestCase::class)->in('unit/LocaleUrlTest.php');
+uses(Tests\TestCase::class)->in('unit/TranslateUrlTest.php');

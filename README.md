@@ -13,7 +13,7 @@ This package is built on top of [PHP JSON tongue](https://github.com/elaborate-c
 
 ### Requirements
 
--   PHP 8.0 or higher.
+- PHP 8.0 or higher.
 
 ### Setup
 
@@ -73,8 +73,8 @@ The output:
 
 `two or three lowercase letters` for the language code + **optionally** `a dash (-) with two uppercase letters` for the region code. For example, all the following codes `ar`, `es`, `fr-CA`, `haw-US` are considered valid.
 
--   [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) or [ISO 639-2](https://www.loc.gov/standards/iso639-2/php/English_list.php) for language codes.
--   [ISO 3166](https://www.iso.org/obp/ui/#search) for region codes.
+- [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) or [ISO 639-2](https://www.loc.gov/standards/iso639-2/php/English_list.php) for language codes.
+- [ISO 3166](https://www.iso.org/obp/ui/#search) for region codes.
 
 ## The multi folder
 
@@ -240,12 +240,20 @@ Usage example:
 </nav>
 ```
 
+### translate_url
+
+Just like the `translate_path` helper, but it prepends the `baseUrl` if set in the config.
+
+```php
+translate_url($page, $target_locale)
+```
+
 ### locale_path
 
 To avoid hard coding the `current_locale` into `paths`, input only the partial path that comes after the `locale code` part into this helper and it will handle the rest for you.
 
 ```php
-$href = locale_path($page, $partial_path)
+locale_path($page, $partial_path)
 ```
 
 | $partial_path | current_locale | href          |
@@ -260,7 +268,7 @@ $href = locale_path($page, $partial_path)
 Just like the `locale_path` helper, but it prepends the `baseUrl` if set in the config.
 
 ```php
-$href = locale_url($page, $partial_path)
+locale_url($page, $partial_path)
 ```
 
 ## Live test

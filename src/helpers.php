@@ -66,7 +66,15 @@ function translate_path($page, ?string $target_locale = null): string
     };
 }
 
-// TODO: add translate_url helper
+/**
+ * @param  mixed  $page
+ * @param  ?string  $target_locale set to the default locale if null
+ * @return string Places $target_locale code in the current url
+ */
+function translate_url($page, ?string $target_locale = null): string
+{
+    return url(translate_path($page, $target_locale));
+}
 
 /**
  * @param  mixed  $page
