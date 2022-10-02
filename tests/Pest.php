@@ -11,4 +11,4 @@
 |
 */
 
-uses(Tests\TestCase::class)->in('unit/LocaleUrlHelperTest.php');
+uses(Tests\TestCase::class)->in('unit/LocaleUrlTest.php');
