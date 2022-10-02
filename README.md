@@ -264,8 +264,9 @@ Wanna see a project that is up and running with this library? checkout this [rep
 
 ## TODO
 
-- Check behavior with non A-Z languages.
-- Add possibility to customize path structure to deduce current locale (for example set /blog/{locale}/... as a possible pattern).
+- Test behavior with non A-Z languages.
+- Add a router with named routes
+  - Allow custom route patterns (for example set /blog/{locale}/)
 
 ## Contributing
 

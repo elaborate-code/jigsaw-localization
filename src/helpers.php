@@ -15,7 +15,7 @@
  */
 function __($page, string $text, ?string $current_locale = null): string
 {
-    $current_locale ??= $page->current_path_locale();
+    $current_locale ??= current_path_locale($page);
 
     return $page->localization[$current_locale][$text] ?? $text;
 }

@@ -29,9 +29,6 @@
         }
     },
     "autoload-dev": {
-        "files": [
-            "tests/_Mocks/helpers.php"
-        ],
         "psr-4": {
             "ElaborateCode\\JigsawLocalization\\Mocks\\": "tests/_Mocks"
         }
