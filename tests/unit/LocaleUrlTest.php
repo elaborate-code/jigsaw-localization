@@ -2,7 +2,7 @@
 
 use ElaborateCode\JigsawLocalization\Mocks\PageMock;
 
-it('sets path on DEFAULT_LOCALE for partial path', function () {
+it('sets URL with base path on DEFAULT_LOCALE for partial path', function () {
     $this->app->config = collect(['baseUrl' => 'https://elaboratecode.com/packages']);
 
     $page = new PageMock;
@@ -10,7 +10,7 @@ it('sets path on DEFAULT_LOCALE for partial path', function () {
     expect(locale_url($page, 'blog'))->toBe('https://elaboratecode.com/packages/blog');
 });
 
-it('sets path on locale for partial path', function () {
+it('sets URL with base path on locale for partial path', function () {
     $this->app->config = collect(['baseUrl' => 'https://elaboratecode.com/packages']);
 
     $page = new PageMock;
